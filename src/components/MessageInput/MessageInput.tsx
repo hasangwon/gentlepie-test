@@ -15,26 +15,24 @@ const MessageInput: React.FC<MessageInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 처음 렌더링될 때 포커스 설정
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
-
-  // 로딩이 끝난 후 포커스 설정
-  useEffect(() => {
-    if (!loading && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [loading]);
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!loading) {
       handleSendMessage();
     }
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!loading && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [loading]);
 
   return (
     <form

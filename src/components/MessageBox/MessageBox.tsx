@@ -1,6 +1,6 @@
 import { MessageType } from "@/types/messageType";
 import React, { useRef, useEffect } from "react";
-import ChatMessage from "./\bChatMessage";
+import ChatMessage from "./ChatMessage";
 
 type MessageBoxProps = {
   messages: MessageType[];
