@@ -43,6 +43,7 @@ const useChat = () => {
     try {
       const botResponse = await sendMessage(messageContent);
       console.log(botResponse,'asd')
+      botResponse.question = messageContent;
       setMessages((prevMessages) => [...prevMessages, botResponse]);
     } catch (error) {
       console.error("Failed to fetch bot response:", error);

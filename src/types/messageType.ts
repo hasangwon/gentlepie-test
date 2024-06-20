@@ -3,6 +3,7 @@ export type BaseMessage = {
     sender: "user" | "bot";
     content: string;
     url?: {link: string, text: string};
+    question?: string;
     timestamp: number;
 };
 
