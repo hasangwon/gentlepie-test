@@ -1,27 +1,23 @@
-export type Button = {
-    text: string;
-    action: () => void;
-};
-
-export type MenuList = {
-    title: string;
-    buttons: Button[];
-};
-
 export type BaseMessage = {
     id: string;
     sender: "user" | "bot";
+    content: string;
+    url?: {link: string, text: string};
     timestamp: number;
 };
 
 export type TextMessage = BaseMessage & {
     type: "text";
-    content: string;
 };
 
 export type ButtonListMessage = BaseMessage & {
     type: "buttonList";
-    buttons: Button[];
+    buttons: string[];
+};
+
+export type MenuList = {
+    title: string;
+    buttons: string[];
 };
 
 export type MenuListMessage = BaseMessage & {

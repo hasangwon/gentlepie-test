@@ -5,17 +5,27 @@ import MessageInput from "../components/MessageInput/MessageInput";
 import useChat from "@/hooks/useChat";
 
 const IndexPage: React.FC = () => {
-  const { messages, inputValue, setInputValue, loading, handleSendMessage } =
-    useChat();
+  const {
+    messages,
+    inputValue,
+    setInputValue,
+    loading,
+    handleSendMessage,
+    handleExampleQuestion,
+  } = useChat();
 
   return (
     <div className="w-full h-full flex flex-col">
       <Header />
-      <MessageBox messages={messages} loading={loading} />
+      <MessageBox
+        messages={messages}
+        loading={loading}
+        onButtonClick={handleExampleQuestion}
+      />
       <MessageInput
         inputValue={inputValue}
         setInputValue={setInputValue}
-        handleSendMessage={handleSendMessage}
+        handleSendMessage={() => handleSendMessage(inputValue)}
         loading={loading}
       />
     </div>

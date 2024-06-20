@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageType } from "@/types/messageType";
 import { sendMessage, rateResponse } from "@/pages/api/chat";
 
@@ -7,15 +7,33 @@ const useChat = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSendMessage = async () => {
-    if (inputValue.trim() === "" || loading) return;
+  useEffect(() => {
+    const welcomeMessage: MessageType = {
+      id: Date.now().toString(),
+      sender: "bot",
+      timestamp: Date.now(),
+      type: "buttonList",
+      content: "안녕하세요! 무엇을 도와드릴까요?",
+      buttons: ["예시 질문 1", "예시 질문 2"],
+      url: { link: "https://www.google.com", text: "구글로 이동"}
+    };
+    setMessages([welcomeMessage]);
+  }, []);
+
+  const handleExampleQuestion = (question: string) => {
+    setInputValue(question);
+    handleSendMessage(question);
+  };
+
+  const handleSendMessage = async (messageContent: string) => {
+    if (messageContent.trim() === "" || loading) return;
 
     const newMessage: MessageType = {
       id: Date.now().toString(),
       sender: "user",
       timestamp: Date.now(),
       type: "text",
-      content: inputValue,
+      content: messageContent,
     };
 
     setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -23,19 +41,9 @@ const useChat = () => {
     setLoading(true);
 
     try {
-      const botResponse = await sendMessage(inputValue);
-
-      const botMessage: MessageType = {
-        id: botResponse.id,
-        sender: "bot",
-        timestamp: Date.now(),
-        type: botResponse.type,
-        content: botResponse.content,
-        buttons: botResponse.buttons,
-        menu: botResponse.menu,
-      };
-
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      const botResponse = await sendMessage(messageContent);
+      console.log(botResponse,'asd')
+      setMessages((prevMessages) => [...prevMessages, botResponse]);
     } catch (error) {
       console.error("Failed to fetch bot response:", error);
     } finally {
@@ -61,6 +69,7 @@ const useChat = () => {
     setInputValue,
     loading,
     handleSendMessage,
+    handleExampleQuestion,
     handleRateResponse,
   };
 };

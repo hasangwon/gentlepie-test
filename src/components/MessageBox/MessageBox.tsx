@@ -5,9 +5,14 @@ import ChatMessage from "./ChatMessage";
 type MessageBoxProps = {
   messages: MessageType[];
   loading: boolean;
+  onButtonClick: (buttonText: string) => void;
 };
 
-const MessageBox: React.FC<MessageBoxProps> = ({ messages, loading }) => {
+const MessageBox: React.FC<MessageBoxProps> = ({
+  messages,
+  loading,
+  onButtonClick,
+}) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
@@ -22,11 +27,18 @@ const MessageBox: React.FC<MessageBoxProps> = ({ messages, loading }) => {
 
   return (
     <div className="flex-grow overflow-y-auto p-4">
-      {messages.map((message, idx) => {
-        return <ChatMessage key={`${message.id}_${idx}`} message={message} />;
-      })}
+      {messages.map((message, idx) => (
+        <ChatMessage
+          key={`${message.id}_${idx}`}
+          message={message}
+          onButtonClick={onButtonClick}
+        />
+      ))}
       {loading && (
-        <div className="typing-indicator">챗봇이 타이핑 중입니다...</div>
+        <div className="flex gap-4 items-start m-4">
+          <div className="w-4 h-4 mt-1 rounded-full bg-red-100 " />
+          챗봇이 타이핑 중입니다...
+        </div>
       )}
       <div ref={messagesEndRef} />
     </div>

@@ -4,17 +4,45 @@ import MockAdapter from 'axios-mock-adapter';
 const API_BASE_URL = 'https://nice.com/api';
 const mock = new MockAdapter(axios);
 
-mock.onPost(`${API_BASE_URL}/chat/send`).reply(() => {
+mock.onPost(`${API_BASE_URL}/chat/send`).reply((config) => {
+  const requestData = JSON.parse(config.data);
+  const message = requestData.message;
+
+  let response;
+
+  if (message === "예시 질문 1") {
+    response = {
+      id: Date.now().toString(),
+      sender: "bot",
+      type: 'buttonList',
+      content: '이것은 예시 질문 1에 대한 응답입니다. 무엇을 도와드릴까요?',
+      buttons: ["질문 1-1", "질문 1-2"],
+      menu: [],
+    };
+  } else if (message === "예시 질문 2") {
+    response = {
+      id: Date.now().toString(),
+      sender: "bot",
+      type: 'menuList',
+      content: '이것은 예시 질문 2에 대한 응답입니다. 무엇을 도와드릴까요?',
+      buttons: [],
+      menu: [{title:'질문 2-1',buttons:['상세 질문 1','상세 질문 2','상세 질문 3']},{title:'질문 2-2',buttons:['상세 질문 5','상세 질문 6','상세 질문 7']},{title:'질문 2-3',buttons:['상세 질문 8','상세 질문 9','상세 질문 10']}],
+    };
+  } else {
+    response = {
+      id: Date.now().toString(),
+      sender: "bot",
+      type: 'text',
+      content: '이것은 기본 응답입니다. 무엇을 도와드릴까요?',
+      buttons: [],
+      menu: [],
+    };
+  }
+
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve([200, {
-        id: 'bot-123',
-        type: 'text',
-        content: '이것은 모킹된 응답입니다. 무엇을 도와드릴까요?',
-        buttons: [],
-        menu: [],
-      }]);
-    }, 1000); 
+      resolve([200, response]);
+    }, 1000);
   });
 });
 
