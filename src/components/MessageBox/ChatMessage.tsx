@@ -4,11 +4,13 @@ import React from "react";
 type ChatMessageProps = {
   message: MessageType;
   onButtonClick: (buttonText: string) => void;
+  regenerateMessage: (message: MessageType) => void;
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({
   message,
   onButtonClick,
+  regenerateMessage,
 }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(message.content);
@@ -52,7 +54,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
                     </div>
                   </div>
                   <div className="mt-2">
-                    {message.buttons.map((buttonText, index) => (
+                    {message?.buttons?.map((buttonText, index) => (
                       <button
                         className="border p-2"
                         key={index}
@@ -88,6 +90,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
                   </div>
                 </div>
               );
+            case "loading":
+              return (
+                <div className="chat-message">챗봇이 타이핑 중입니다...</div>
+              );
             default:
               return null;
           }
@@ -100,12 +106,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             >
               Copy
             </button>
-            <button
-              className=""
-              onClick={() => onButtonClick(message?.question || "")}
-            >
-              재생성
-            </button>
+            {message.question && (
+              <button className="" onClick={() => regenerateMessage(message)}>
+                재생성
+              </button>
+            )}
           </>
         )}
       </div>

@@ -6,12 +6,14 @@ type MessageBoxProps = {
   messages: MessageType[];
   loading: boolean;
   onButtonClick: (buttonText: string) => void;
+  regenerateMessage: (message: MessageType) => void;
 };
 
 const MessageBox: React.FC<MessageBoxProps> = ({
   messages,
   loading,
   onButtonClick,
+  regenerateMessage,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,6 +34,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
           key={`${message.id}_${idx}`}
           message={message}
           onButtonClick={onButtonClick}
+          regenerateMessage={regenerateMessage}
         />
       ))}
       {loading && (

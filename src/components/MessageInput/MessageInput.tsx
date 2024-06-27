@@ -45,7 +45,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         disabled={loading}
-        className="flex-grow border border-gray-300 p-2 rounded-l-md"
+        className="flex-grow border border-gray-300 p-2 rounded-l-md focus:outline-none"
       />
       <button
         type="submit"

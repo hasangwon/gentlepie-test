@@ -8,11 +8,11 @@ export type BaseMessage = {
 };
 
 export type TextMessage = BaseMessage & {
-    type: "text";
+    type: "text" | "loading";
 };
 
 export type ButtonListMessage = BaseMessage & {
-    type: "buttonList";
+    type: "buttonList"| "loading";
     buttons: string[];
 };
 
@@ -22,7 +22,7 @@ export type MenuList = {
 };
 
 export type MenuListMessage = BaseMessage & {
-    type: "menuList";
+    type: "menuList"| "loading";
     menu: MenuList[];
 };
 

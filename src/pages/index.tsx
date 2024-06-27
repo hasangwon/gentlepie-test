@@ -4,7 +4,7 @@ import MessageBox from "../components/MessageBox/MessageBox";
 import MessageInput from "../components/MessageInput/MessageInput";
 import useChat from "@/hooks/useChat";
 
-const IndexPage: React.FC = () => {
+const Index: React.FC = () => {
   const {
     messages,
     inputValue,
@@ -12,6 +12,7 @@ const IndexPage: React.FC = () => {
     loading,
     handleSendMessage,
     handleExampleQuestion,
+    regenerateMessage,
   } = useChat();
 
   return (
@@ -21,6 +22,7 @@ const IndexPage: React.FC = () => {
         messages={messages}
         loading={loading}
         onButtonClick={handleExampleQuestion}
+        regenerateMessage={regenerateMessage}
       />
       <MessageInput
         inputValue={inputValue}
@@ -32,4 +34,4 @@ const IndexPage: React.FC = () => {
   );
 };
 
-export default IndexPage;
+export default Index;

@@ -14,6 +14,7 @@ mock.onPost(`${API_BASE_URL}/chat/send`).reply((config) => {
     response = {
       id: Date.now().toString(),
       sender: "bot",
+      timestamp: Date.now(),
       type: 'buttonList',
       content: '이것은 예시 질문 1에 대한 응답입니다. 무엇을 도와드릴까요?',
       buttons: ["질문 1-1", "질문 1-2"],
@@ -23,6 +24,7 @@ mock.onPost(`${API_BASE_URL}/chat/send`).reply((config) => {
     response = {
       id: Date.now().toString(),
       sender: "bot",
+      timestamp: Date.now(),
       type: 'menuList',
       content: '이것은 예시 질문 2에 대한 응답입니다. 무엇을 도와드릴까요?',
       buttons: [],
@@ -31,7 +33,8 @@ mock.onPost(`${API_BASE_URL}/chat/send`).reply((config) => {
   } else {
     response = {
       id: Date.now().toString(),
-      sender: "bot",
+      sender: "bot",      
+      timestamp: Date.now(),
       type: 'text',
       content: '이것은 기본 응답입니다. 무엇을 도와드릴까요?',
       buttons: [],
