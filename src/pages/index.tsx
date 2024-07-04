@@ -3,6 +3,7 @@ import Header from "../components/Header/Header";
 import MessageBox from "../components/MessageBox/MessageBox";
 import MessageInput from "../components/MessageInput/MessageInput";
 import useChat from "@/hooks/useChat";
+import Swiper from "@/components/Swiper/Swiper";
 
 const Index: React.FC = () => {
   const {
@@ -24,6 +25,7 @@ const Index: React.FC = () => {
         onButtonClick={handleExampleQuestion}
         regenerateMessage={regenerateMessage}
       />
+      {/* <Swiper /> */}
       <MessageInput
         inputValue={inputValue}
         setInputValue={setInputValue}
