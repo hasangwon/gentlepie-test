@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from "react";
 
-type MessageInputProps = {
+type ChatInputProps = {
   inputValue: string;
   setInputValue: (value: string) => void;
   handleSendMessage: () => void;
   loading: boolean;
 };
 
-const MessageInput: React.FC<MessageInputProps> = ({
+const ChatInput: React.FC<ChatInputProps> = ({
   inputValue,
   setInputValue,
   handleSendMessage,
@@ -58,4 +58,4 @@ const MessageInput: React.FC<MessageInputProps> = ({
   );
 };
 
-export default MessageInput;
+export default ChatInput;

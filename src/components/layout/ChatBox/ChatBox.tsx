@@ -2,14 +2,14 @@ import { MessageType } from "@/types/messageType";
 import React, { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 
-type MessageBoxProps = {
+type ChatBoxProps = {
   messages: MessageType[];
   loading: boolean;
   onButtonClick: (buttonText: string) => void;
   regenerateMessage: (message: MessageType) => void;
 };
 
-const MessageBox: React.FC<MessageBoxProps> = ({
+const ChatBox: React.FC<ChatBoxProps> = ({
   messages,
   loading,
   onButtonClick,
@@ -48,4 +48,4 @@ const MessageBox: React.FC<MessageBoxProps> = ({
   );
 };
 
-export default MessageBox;
+export default ChatBox;

@@ -1,9 +1,12 @@
 import React from "react";
-import Header from "../components/Header/Header";
-import MessageBox from "../components/MessageBox/MessageBox";
-import MessageInput from "../components/MessageInput/MessageInput";
-import useChat from "@/hooks/useChat";
-import Swiper from "@/components/Swiper/Swiper";
+
+import Header from "@/components/layout/Header/Header";
+import ChatBox from "@/components/layout/ChatBox/ChatBox";
+import ChatInput from "@/components/layout/ChatInput/ChatInput";
+import useChat from "@/hooks/useChat/useChat";
+import Carousel from "@/components/common/Carousel/Carousel";
+import useMenu from "@/hooks/useMenu/useMenu";
+import { MessageType } from "@/types/messageType";
 
 const Index: React.FC = () => {
   const {
@@ -12,21 +15,40 @@ const Index: React.FC = () => {
     setInputValue,
     loading,
     handleSendMessage,
-    handleExampleQuestion,
+    handleTextButtonClick,
     regenerateMessage,
   } = useChat();
+
+  const { menu, setMenu } = useMenu();
+
+  const renderContent = () => {
+    switch (menu) {
+      case "FAQ":
+        return (
+          <Carousel
+            handleTextButtonClick={handleTextButtonClick}
+            setMenu={setMenu}
+          />
+        );
+      case "Chat":
+        return (
+          <ChatBox
+            messages={messages}
+            loading={loading}
+            onButtonClick={handleTextButtonClick}
+            regenerateMessage={regenerateMessage}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col">
       <Header />
-      <MessageBox
-        messages={messages}
-        loading={loading}
-        onButtonClick={handleExampleQuestion}
-        regenerateMessage={regenerateMessage}
-      />
-      {/* <Swiper /> */}
-      <MessageInput
+      {renderContent()}
+      <ChatInput
         inputValue={inputValue}
         setInputValue={setInputValue}
         handleSendMessage={() => handleSendMessage(inputValue)}

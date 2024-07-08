@@ -30,7 +30,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
           message.sender === "bot" ? "bg-red-100 " : "bg-blue-100 "
         }`}
       />
-      <div className="relative group">
+      <div className="relative group p-4 rounded-xl bg-neutral-100">
         {(() => {
           switch (message.type) {
             case "text":
@@ -38,12 +38,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             case "buttonList":
               return (
                 <div className="">
-                  <div className="border p-2 rounded-md">
+                  <div className="p-2 rounded-md">
                     <div>{message.content}</div>
                     <div>
                       {message.url && (
                         <button
-                          className="border p-2 bg-gray-100"
+                          className="p-2 bg-white rounded-xl mr-1"
                           onClick={() =>
                             window.open(message.url?.link, "_blank")
                           }
@@ -56,7 +56,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
                   <div className="mt-2">
                     {message?.buttons?.map((buttonText, index) => (
                       <button
-                        className="border p-2"
+                        className="p-2 bg-white rounded-xl mr-1"
                         key={index}
                         onClick={() => onButtonClick(buttonText)}
                       >
@@ -107,7 +107,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
               Copy
             </button>
             {message.question && (
-              <button className="" onClick={() => regenerateMessage(message)}>
+              <button
+                className="p-2 bg-white rounded-xl mt-1"
+                onClick={() => regenerateMessage(message)}
+              >
                 재생성
               </button>
             )}

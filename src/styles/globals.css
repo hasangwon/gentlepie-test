@@ -1,8 +1,8 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-gov.min.css");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 html, body, #__next {
   font-family: "Pretendard GOV", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
@@ -10,6 +10,15 @@ html, body, #__next {
   height: 100%;
 }
 
+/* 그라데이션 텍스트 */
+.gradient-text {
+  background: linear-gradient(90deg, #AA00C6, #D06262, #000AFF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* react-slick CSS */
 .slick-dots li {
   text-align: center !important;
   margin: 0 0px !important;
@@ -23,4 +32,40 @@ html, body, #__next {
   width: 100%;
 }
 
+@media (max-width: 400px) {
+  .custom-text {
+    font-size: 22px
+    }
+}
 
+.line {
+  width: 2px;
+  height: 100px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #ccc,
+    #ccc 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  margin: 0 auto;
+}
+
+
+.animated-gradient {
+  background: linear-gradient(270deg, #D2D6FA, #A3BEF8, #799CF7, #7D88F5, #9579F7, #9678FA, #AC82F9, #CBA9FA, #E1B6E5, #FEB0E0, #FFA2E0, #FEA4CA, #FDAAD6);
+  background-size: 200% 200%;
+  animation: gradient-animation 20s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
