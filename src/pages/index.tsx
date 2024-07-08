@@ -45,7 +45,7 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col min-w-[320px]">
       <Header />
       {renderContent()}
       <ChatInput

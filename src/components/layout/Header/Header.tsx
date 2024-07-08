@@ -12,7 +12,7 @@ const Header = () => {
         새로고침
       </button>
       <div className="font-bold text-[18px] leading-[22px] tracking-[0.1rem] text-white">
-        COS-BOT
+        테스트 챗봇
       </div>
     </header>
   );

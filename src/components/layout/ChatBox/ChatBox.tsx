@@ -29,12 +29,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
   return (
     <div className="flex-grow overflow-y-auto p-4">
-      {messages.map((message, idx) => (
+      {messages.map((message, index) => (
         <ChatMessage
-          key={`${message.id}_${idx}`}
+          key={`${message.id}_${index}`}
+          index={index}
           message={message}
           onButtonClick={onButtonClick}
           regenerateMessage={regenerateMessage}
+          scrollToBottom={scrollToBottom}
         />
       ))}
       {loading && (
