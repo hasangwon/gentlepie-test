@@ -57,7 +57,10 @@ const Index: React.FC = () => {
           <ChatInput
             inputValue={inputValue}
             setInputValue={setInputValue}
-            handleSendMessage={() => handleSendMessage(inputValue)}
+            handleSendMessage={() => {
+              setMenu("Chat");
+              handleSendMessage(inputValue);
+            }}
             loading={loading}
           />
         </div>
