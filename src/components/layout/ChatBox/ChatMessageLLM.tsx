@@ -7,9 +7,11 @@ import React from "react";
 const LLMMessage = ({
   message,
   scrollToBottom,
+  isTyping = true,
 }: {
   message: MessageType;
   scrollToBottom?: () => void;
+  isTyping?: boolean;
 }) => {
   if (message.sender) {
     const resultMessage = message?.content;
@@ -21,11 +23,15 @@ const LLMMessage = ({
           </div>
 
           <div className="bg-neutral-light bg-neutral-100 rounded-xl p-4">
-            <TypingEffect
-              scrollToBottom={scrollToBottom}
-              text={resultMessage}
-              speed={getTypingSpeed(resultMessage.length)}
-            />
+            {isTyping ? (
+              <TypingEffect
+                scrollToBottom={scrollToBottom}
+                text={resultMessage}
+                speed={getTypingSpeed(resultMessage.length)}
+              />
+            ) : (
+              resultMessage
+            )}
             <div className="flex w-full justify-end mt-2">👍 👎</div>
             <TextToSpeech
               text={resultMessage}

@@ -7,6 +7,7 @@ import useChat from "@/hooks/useChat/useChat";
 import Carousel from "@/components/common/Carousel/Carousel";
 import useMenu from "@/hooks/useMenu/useMenu";
 import { MessageType } from "@/types/messageType";
+import Head from "next/head";
 
 const Index: React.FC = () => {
   const {
@@ -45,16 +46,23 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col min-w-[320px]">
-      <Header />
-      {renderContent()}
-      <ChatInput
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        handleSendMessage={() => handleSendMessage(inputValue)}
-        loading={loading}
-      />
-    </div>
+    <>
+      <Head>
+        <title>테스트 챗봇</title>
+      </Head>
+      <div className="w-full h-full flex justify-center bg-gray-100">
+        <div className="w-full h-full flex flex-col min-w-[320px] max-w-[720px] bg-white">
+          <Header />
+          {renderContent()}
+          <ChatInput
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            handleSendMessage={() => handleSendMessage(inputValue)}
+            loading={loading}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -2,9 +2,9 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="relative w-full animated-gradient flex justify-center p-4">
+    <header className="relative w-full flex justify-center p-4 bg-gray-400">
       <button
-        className="absolute left-4 top-4"
+        className="absolute left-4 top-4 text-white"
         onClick={() => {
           window.location.reload();
         }}

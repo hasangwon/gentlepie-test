@@ -1,6 +1,7 @@
 import { MessageType } from "@/types/messageType";
 import React, { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
+import ChatMessageLLM from "./ChatMessageLLM";
 
 type ChatBoxProps = {
   messages: MessageType[];
@@ -40,10 +41,17 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         />
       ))}
       {loading && (
-        <div className="flex gap-4 items-start m-4">
-          <div className="w-4 h-4 mt-1 rounded-full bg-red-100 " />
-          챗봇이 타이핑 중입니다...
-        </div>
+        <ChatMessageLLM
+          message={{
+            id: "load",
+            sender: "bot",
+            content: "챗봇이 입력중입니다.",
+            timestamp: Date.now(),
+            type: "loading",
+          }}
+          scrollToBottom={scrollToBottom}
+          isTyping={false}
+        />
       )}
       <div ref={messagesEndRef} />
     </div>
