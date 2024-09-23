@@ -60,14 +60,14 @@ const ChatInput: React.FC<ChatInputProps> = ({
               onChange={(e) => setInputValue(e.target.value)}
               disabled={loading}
               placeholder="궁금하면 무엇이든 검색하세요"
-              className="flex-grow px-4 text-primary bg-transparent focus:outline-none placeholder:text-center placeholder:text-primary pr-12"
+              className="flex-grow px-4 text-primary bg-transparent focus:outline-none placeholder:text-center placeholder:text-primary pr-20"
             />
             <button
               type="submit"
               disabled={loading}
-              className="text-xs w-10 h-10 bg-primary text-white p-2 rounded-full absolute right-2 top-1/2 transform -translate-y-1/2"
+              className="text-xs w-12 h-10 bg-primary text-white p-2 rounded-full absolute right-2 top-1/2 transform -translate-y-1/2"
             >
-              {loading ? "로딩" : "전송"}
+              {loading ? "로딩" : "초기화"}
             </button>
           </>
         )}

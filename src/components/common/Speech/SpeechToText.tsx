@@ -15,16 +15,30 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
       const recognitionInstance = new SpeechRecognition();
       recognitionInstance.lang = "ko-KR"; // Set language to Korean
       recognitionInstance.continuous = true; // Keep recognizing even if there's a pause
-      recognitionInstance.interimResults = false; // Show only final results
+      recognitionInstance.interimResults = true; // Show interim results for real-time updates
 
       recognitionInstance.onresult = (event) => {
-        console.log(Array.from(event.results), "nice");
-        const transcript = Array.from(event.results)
-          .map((result) => result[0])
-          .map((result) => result.transcript)
-          .join("");
+        let interimTranscript = ""; // 중간 텍스트
+        let finalTranscript = ""; // 최종 텍스트
+
+        // 모든 결과들을 순회하며 중간 텍스트와 최종 텍스트를 분리
+        for (let i = 0; i < event.results.length; i++) {
+          const transcriptSegment = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcriptSegment;
+          } else {
+            interimTranscript += transcriptSegment;
+          }
+        }
+
+        // 중간 텍스트를 즉시 업데이트
         if (onResult) {
-          onResult(transcript);
+          onResult(interimTranscript);
+        }
+
+        // 최종 텍스트가 있으면 전체 업데이트
+        if (finalTranscript) {
+          onResult(finalTranscript);
         }
       };
 
@@ -40,7 +54,6 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
 
   useEffect(() => {
     if (isListening) {
-      // Initialize audio context and analyser
       audioContextRef.current = new (window.AudioContext ||
         window.webkitAudioContext)();
       analyserRef.current = audioContextRef.current.createAnalyser();
@@ -48,7 +61,6 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
         analyserRef.current.frequencyBinCount
       );
 
-      // Get user media (microphone)
       navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
         const source = audioContextRef.current.createMediaStreamSource(stream);
         source.connect(analyserRef.current);
@@ -56,7 +68,6 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
       });
 
       return () => {
-        // Cleanup
         if (audioContextRef.current) {
           audioContextRef.current.close();
         }
@@ -72,7 +83,6 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
 
     analyserRef.current.getByteFrequencyData(dataArrayRef.current);
 
-    // Update the visualization
     const canvas = document.getElementById("visualizer");
     const canvasCtx = canvas.getContext("2d");
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height);

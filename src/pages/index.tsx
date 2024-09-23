@@ -1,12 +1,7 @@
 import React from "react";
-
 import Header from "@/components/layout/Header/Header";
-import ChatBox from "@/components/layout/ChatBox/ChatBox";
 import ChatInput from "@/components/layout/ChatInput/ChatInput";
 import useChat from "@/hooks/useChat/useChat";
-import Carousel from "@/components/common/Carousel/Carousel";
-import useMenu from "@/hooks/useMenu/useMenu";
-import { MessageType } from "@/types/messageType";
 import Head from "next/head";
 
 const Index: React.FC = () => {
@@ -20,45 +15,21 @@ const Index: React.FC = () => {
     regenerateMessage,
   } = useChat();
 
-  const { menu, setMenu } = useMenu();
-
-  const renderContent = () => {
-    switch (menu) {
-      case "FAQ":
-        return (
-          <Carousel
-            handleTextButtonClick={handleTextButtonClick}
-            setMenu={setMenu}
-          />
-        );
-      case "Chat":
-        return (
-          <ChatBox
-            messages={messages}
-            loading={loading}
-            onButtonClick={handleTextButtonClick}
-            regenerateMessage={regenerateMessage}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
     <>
       <Head>
-        <title>테스트 챗봇</title>
+        <title>STT TEST</title>
       </Head>
       <div className="w-full h-full flex justify-center bg-gray-100">
-        <div className="w-full h-full flex flex-col min-w-[320px] max-w-[720px] bg-white">
+        <div className="w-full h-full flex flex-col justify-between min-w-[320px] max-w-[720px] bg-white">
           <Header />
-          {renderContent()}
+          <div className="border m-8 p-4 h-[30rem] bg-gray-100 rounded-xl">
+            {inputValue}
+          </div>
           <ChatInput
             inputValue={inputValue}
             setInputValue={setInputValue}
             handleSendMessage={() => {
-              setMenu("Chat");
               handleSendMessage(inputValue);
             }}
             loading={loading}
