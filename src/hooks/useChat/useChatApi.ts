@@ -16,16 +16,6 @@ const useChatApi = () => {
     }
   };
 
-  const rateResponse = async (responseId: string, rating: 'like' | 'dislike') => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/chat/rate`, { responseId, rating });
-      return response.data;
-    } catch (error) {
-      console.error('Failed to rate response:', error);
-      throw error;
-    }
-  };
-
   const getWelcomeMessage = async () => {
     return {
       id: Date.now().toString(),
@@ -38,7 +28,7 @@ const useChatApi = () => {
     } as MessageType;
   }
 
-  return { sendMessage, rateResponse, getWelcomeMessage };
+  return { sendMessage, getWelcomeMessage };
 }
 export default useChatApi;
 

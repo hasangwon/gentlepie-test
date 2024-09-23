@@ -1,39 +1,32 @@
 import React from "react";
-import Header from "@/components/layout/Header/Header";
-import ChatInput from "@/components/layout/ChatInput/ChatInput";
-import useChat from "@/hooks/useChat/useChat";
 import Head from "next/head";
+import Link from "next/link";
 
 const Index: React.FC = () => {
-  const {
-    messages,
-    inputValue,
-    setInputValue,
-    loading,
-    handleSendMessage,
-    handleTextButtonClick,
-    regenerateMessage,
-  } = useChat();
-
   return (
     <>
       <Head>
-        <title>STT TEST</title>
+        <title>GENTLEPIE-TEST</title>
       </Head>
       <div className="w-full h-full flex justify-center bg-gray-100">
-        <div className="w-full h-full flex flex-col justify-between min-w-[320px] max-w-[720px] bg-white">
-          <Header />
-          <div className="border m-8 p-4 h-[30rem] bg-gray-100 rounded-xl">
-            {inputValue}
-          </div>
-          <ChatInput
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            handleSendMessage={() => {
-              handleSendMessage(inputValue);
-            }}
-            loading={loading}
-          />
+        <div className="w-full h-full flex flex-col items-center min-w-[320px] max-w-[720px] bg-white">
+          <header className="text-2xl py-4 bg-yellow-500 w-full text-center text-white">
+            젠틀파이 테스트 웹
+          </header>
+          <ul className="w-full text-left flex flex-col gap-1">
+            <Link
+              className="text-lg font-semibold hover:bg-yellow-300 py-4 px-2"
+              href={"/stt"}
+            >
+              ◈ 음성 인식(STT) 테스트
+            </Link>
+            <Link
+              className="text-lg font-semibold hover:bg-yellow-300 py-4 px-2"
+              href={"/chat"}
+            >
+              ◈ 기본 채팅 테스트
+            </Link>
+          </ul>
         </div>
       </div>
     </>

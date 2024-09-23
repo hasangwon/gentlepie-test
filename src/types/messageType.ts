@@ -2,7 +2,7 @@ export type BaseMessage = {
     id: string;
     sender: "user" | "bot";
     content: string;
-    url?: {link: string, text: string};
+    url?: { link: string, text: string };
     question?: string;
     timestamp: number;
 };
@@ -12,7 +12,7 @@ export type TextMessage = BaseMessage & {
 };
 
 export type ButtonListMessage = BaseMessage & {
-    type: "buttonList"| "loading";
+    type: "buttonList" | "loading";
     buttons: string[];
 };
 
@@ -22,8 +22,8 @@ export type MenuList = {
 };
 
 export type MenuListMessage = BaseMessage & {
-    type: "menuList"| "loading";
+    type: "menuList" | "loading";
     menu: MenuList[];
 };
 
-export type MessageType = TextMessage | ButtonListMessage | MenuListMessage;
+export type MessageType = TextMessage | ButtonListMessage | MenuListMessage | any;

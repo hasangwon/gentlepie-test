@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = () => {
+const STTHeader = () => {
   return (
     <header className="relative w-full flex justify-center p-4 bg-gray-400">
       <button
@@ -18,4 +18,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default STTHeader;
