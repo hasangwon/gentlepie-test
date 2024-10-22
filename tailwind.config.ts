@@ -9,6 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        gentle: {
+          DEFAULT: '#FFBC00',
+          light: "#F3F3F3",
+          dark: "#717171",
+          text: "#222222"
+        },
+        bublitt: {
+          DEFAULT: '#FC5732',
+          secondary: "#BA2DBC",
+          text: "#27262F",
+          light: "#66656B"
+        },
         primary: {
           DEFAULT: '#20247E'
         },
