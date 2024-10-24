@@ -1,12 +1,20 @@
 import SpeechToText from "@/components/common/Speech/SpeechToText";
+import NextButton from "@/components/common/Svg/NextButton";
 import React, { useRef, useEffect, useState } from "react";
 
-type ChatInputProps = {
+const InquryInput = ({
+  inputValue,
+  setInputValue,
+  handleSendMessage,
+  isListening,
+  setIsListening,
+}: {
   inputValue: string;
-  setInputValue: (value: string) => void;
-};
-
-const InquryInput: React.FC<ChatInputProps> = ({ inputValue, setInputValue }) => {
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSendMessage: (userMessage: string) => void;
+  isListening: boolean;
+  setIsListening: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -15,27 +23,42 @@ const InquryInput: React.FC<ChatInputProps> = ({ inputValue, setInputValue }) =>
     }
   }, []);
 
-  const [isListening, setIsListening] = useState(false);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    handleSendMessage(inputValue);
+    setInputValue("");
+  };
 
   return (
     <div className="relative w-full px-4 py-2 text-base">
-      <form onSubmit={() => setInputValue("")} className="relative w-full h-[5rem] bg-white flex border border-primary rounded-[50px] mb-2 py-4">
-        <SpeechToText
-          isListening={isListening}
-          setIsListening={setIsListening}
-          onResult={(transcript: any) => {
-            console.log(transcript);
-            setInputValue(transcript);
-          }}
+      <form
+        onSubmit={handleSubmit}
+        className="relative w-full h-[4.5rem] bg-primary flex border border-primary rounded-[30px] mb-2 py-4"
+      >
+        <input
+          type="text"
+          ref={inputRef}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder=""
+          className="flex-grow px-6 text-white bg-transparent focus:outline-none placeholder:text-center placeholder:text-white resize-none"
         />
-        {!isListening && (
-          <>
-            <input type="text" ref={inputRef} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="궁금하면 무엇이든 검색하세요" className="flex-grow px-4 text-primary bg-transparent focus:outline-none placeholder:text-center placeholder:text-primary pr-20" />
-            <button type="submit" className="text-xs w-12 h-10 bg-primary text-white p-2 rounded-full absolute right-2 top-1/2 transform -translate-y-1/2">
-              {"초기화"}
-            </button>
-          </>
-        )}
+        <div className="flex mr-4 items-end">
+          <button
+            onClick={handleSubmit}
+            className="flex justify-center items-center mr-2"
+          >
+            <NextButton />
+          </button>
+          <SpeechToText
+            isListening={isListening}
+            setIsListening={setIsListening}
+            onResult={(transcript: any) => {
+              console.log(transcript);
+              setInputValue(transcript);
+            }}
+          />
+        </div>
       </form>
     </div>
   );
