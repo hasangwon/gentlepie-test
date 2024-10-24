@@ -24,8 +24,8 @@ const STTInput: React.FC<ChatInputProps> = ({ inputValue, setInputValue }) => {
         className="relative w-full h-[5rem] bg-white flex border border-primary rounded-[50px] mb-2 py-4"
       >
         <SpeechToText
-          isListening={isListening}
-          setIsListening={setIsListening}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
           onResult={(transcript: any) => {
             console.log(transcript);
             setInputValue(transcript);
