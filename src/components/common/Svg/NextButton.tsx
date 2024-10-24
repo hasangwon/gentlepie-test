@@ -18,19 +18,19 @@ const NextButton = () => {
           rx="12.1136"
           transform="rotate(45 19.0847 1.36093)"
           stroke="white"
-          stroke-width="1.77273"
+          strokeWidth="1.77273"
         ></rect>
         <path
           d="M19.0847 13.7646L23.812 18.4923L19.0847 23.2196"
           stroke="white"
-          stroke-width="1.77273"
-          stroke-linecap="round"
+          strokeWidth="1.77273"
+          strokeLinecap="round"
         ></path>
         <path
           d="M14.3575 18.4922H23.812"
           stroke="white"
-          stroke-width="1.77273"
-          stroke-linecap="round"
+          strokeWidth="1.77273"
+          strokeLinecap="round"
         ></path>
       </g>
     </svg>

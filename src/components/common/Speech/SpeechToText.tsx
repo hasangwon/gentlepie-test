@@ -2,12 +2,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-const SpeechToText = ({ onResult, isListening, setIsListening }) => {
+const SpeechToText = ({ onResult }) => {
   const [recognition, setRecognition] = useState(null);
+  const [isListening, setIsListening] = useState(false);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
   const animationRef = useRef(null);
+  const mediaStreamRef = useRef(null); // 미디어 스트림 저장
 
   useEffect(() => {
     const SpeechRecognition =
@@ -62,7 +64,9 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
         analyserRef.current.frequencyBinCount
       );
 
+      // 마이크 스트림 가져오기
       navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+        mediaStreamRef.current = stream; // 스트림 저장
         const source = audioContextRef.current.createMediaStreamSource(stream);
         source.connect(analyserRef.current);
         visualize();
@@ -114,6 +118,11 @@ const SpeechToText = ({ onResult, isListening, setIsListening }) => {
     if (recognition && isListening) {
       recognition.stop();
       setIsListening(false);
+
+      // 마이크 스트림을 중지하여 녹음 표시 제거
+      if (mediaStreamRef.current) {
+        mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      }
     }
   };
 

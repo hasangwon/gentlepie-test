@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Header from "@/components/common/Element/Header";
 import InquryInput from "@/components/layout/InquiryLayout/InquiryInput";
@@ -18,11 +18,8 @@ const Inquiry: React.FC = () => {
     }
   };
   const {
-    isListening,
-    setIsListening,
     inputValue,
     setInputValue,
-    userMessages,
     botMessage,
     isLoading,
     handleSendMessage,
@@ -39,6 +36,7 @@ const Inquiry: React.FC = () => {
       <Head>
         <title>GENTLEPIE-INQUIRY</title>
       </Head>
+
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
         <div className="w-full h-full flex flex-col items-between min-w-[320px] max-w-[720px] bg-white relative">
           <Header title={"문진 챗봇"} titleStyle={""} />
@@ -178,8 +176,6 @@ const Inquiry: React.FC = () => {
                 inputValue={inputValue}
                 setInputValue={setInputValue}
                 handleSendMessage={handleSendMessage}
-                isListening={isListening}
-                setIsListening={setIsListening}
               />
             </div>
           )}

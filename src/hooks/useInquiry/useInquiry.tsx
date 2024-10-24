@@ -3,10 +3,11 @@ import useInquiryApi from "./useInquiryApi";
 
 const useInquiry = () => {
   const { sendMessage } = useInquiryApi();
-  const [isListening, setIsListening] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [userMessages, setUserMessages] = useState<any[]>([]);
-  const [botMessage, setBotMessage] = useState("");
+  const [botMessage, setBotMessage] = useState(
+    "안녕하세요!\n 증상을 말씀해주세요."
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [threadId, setThreadId] = useState("");
 
@@ -29,8 +30,6 @@ const useInquiry = () => {
   };
 
   return {
-    isListening,
-    setIsListening,
     inputValue,
     setInputValue,
     userMessages,

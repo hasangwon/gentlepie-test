@@ -6,16 +6,12 @@ const InquryInput = ({
   inputValue,
   setInputValue,
   handleSendMessage,
-  isListening,
-  setIsListening,
 }: {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   handleSendMessage: (userMessage: string) => void;
-  isListening: boolean;
-  setIsListening: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -31,35 +27,40 @@ const InquryInput = ({
 
   return (
     <div className="relative w-full px-4 py-2 text-base">
-      <form
-        onSubmit={handleSubmit}
-        className="relative w-full h-[4.5rem] bg-primary flex border border-primary rounded-[30px] mb-2 py-4"
-      >
-        <input
-          type="text"
+      <div className="relative w-full h-[5rem] bg-primary flex border border-primary rounded-[30px] mb-2 py-[14px]">
+        <textarea
           ref={inputRef}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder=""
           className="flex-grow px-6 text-white bg-transparent focus:outline-none placeholder:text-center placeholder:text-white resize-none"
+          onKeyDown={(event) => {
+            if (event.nativeEvent.isComposing) return;
+            if (event.key === "Enter" && !event.shiftKey) {
+              event.preventDefault();
+              handleSubmit(event);
+            }
+          }}
         />
         <div className="flex mr-4 items-end">
           <button
             onClick={handleSubmit}
-            className="flex justify-center items-center mr-2"
+            className="flex justify-center items-center mr-1"
           >
             <NextButton />
           </button>
           <SpeechToText
-            isListening={isListening}
-            setIsListening={setIsListening}
             onResult={(transcript: any) => {
-              console.log(transcript);
+              console.log("바로 동작", transcript);
+              console.log("적용", transcript);
+
               setInputValue(transcript);
             }}
+            // inputValue={inputValue}
+            // setInputValue={setInputValue}
           />
         </div>
-      </form>
+      </div>
     </div>
   );
 };

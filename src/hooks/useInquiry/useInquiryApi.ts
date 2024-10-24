@@ -1,5 +1,5 @@
 import axios from 'axios';
-const TEST_URL = "http://192.168.0.23:3000/process"; // 'http://' 추가
+const TEST_URL = "https://doctorchat-internal.gentlepie.com/process"; // 'http://' 추가
 
 const useInquiryApi = () => {
   const sendMessage = async (message: string, threadId: string) => {
