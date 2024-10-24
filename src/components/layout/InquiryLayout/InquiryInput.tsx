@@ -56,8 +56,8 @@ const InquryInput = ({
 
               setInputValue(transcript);
             }}
-            // inputValue={inputValue}
-            // setInputValue={setInputValue}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
           />
         </div>
       </div>

@@ -2,9 +2,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-const SpeechToText = ({ onResult }) => {
+const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
   const [recognition, setRecognition] = useState(null);
   const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
   const dataArrayRef = useRef(null);
@@ -47,6 +48,13 @@ const SpeechToText = ({ onResult }) => {
 
       recognitionInstance.onerror = (event) => {
         console.error("Speech recognition error detected: " + event.error);
+        if (event.error === "no-speech") {
+          console.log("No speech detected, restarting recognition...");
+          recognitionInstance.stop(); // 먼저 음성 인식을 멈추고
+          setTimeout(() => {
+            recognitionInstance.start(); // 잠시 후 다시 시작
+          }, 500); // 1초 후 재시작
+        }
       };
 
       setRecognition(() => recognitionInstance);
@@ -65,12 +73,19 @@ const SpeechToText = ({ onResult }) => {
       );
 
       // 마이크 스트림 가져오기
-      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-        mediaStreamRef.current = stream; // 스트림 저장
-        const source = audioContextRef.current.createMediaStreamSource(stream);
-        source.connect(analyserRef.current);
-        visualize();
-      });
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          mediaStreamRef.current = stream; // 스트림 저장
+          const source =
+            audioContextRef.current.createMediaStreamSource(stream);
+          source.connect(analyserRef.current);
+          visualize();
+        })
+        .catch((error) => {
+          console.error("Error accessing microphone: ", error);
+          setIsListening(false); // 에러 발생 시 듣기 상태 비활성화
+        });
 
       return () => {
         if (audioContextRef.current) {
@@ -85,23 +100,68 @@ const SpeechToText = ({ onResult }) => {
 
   const visualize = () => {
     if (!analyserRef.current) return;
-
     analyserRef.current.getByteFrequencyData(dataArrayRef.current);
 
     const canvas = document.getElementById("visualizer");
     const canvasCtx = canvas.getContext("2d");
+    const bufferLength = analyserRef.current.frequencyBinCount;
+    const dataArray = dataArrayRef.current; // 주파수 데이터 배열
+
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const barWidth = (canvas.width / dataArrayRef.current.length) * 2.5;
-    let barHeight;
-    const centerY = canvas.height / 2;
-    let x = 0;
+    const numLines = 7; // 막대 개수
+    const lineWidth = canvas.width / numLines - 30; // 막대 너비
+    const centerY = canvas.height / 2; // 캔버스 중앙
+    const indices = [4, 2, 0, 1, 3, 5, 6]; // 가운데부터 확산되는 인덱스 순서
+    const barSpacing = 8; // 막대 사이 간격
 
-    for (let i = 0; i < dataArrayRef.current.length; i++) {
-      barHeight = dataArrayRef.current[i] / 2;
-      canvasCtx.fillStyle = "rgb(50,50,200)";
-      canvasCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight);
-      x += barWidth + 1;
+    // 막대 전체 너비 계산 및 시작 위치 계산
+    const totalBarWidth = numLines * lineWidth + (numLines - 1) * barSpacing;
+    const startX = (canvas.width - totalBarWidth) / 2;
+
+    for (let i = 0; i < numLines; i++) {
+      const sliceStart = Math.floor((indices[i] / numLines) * bufferLength);
+      const sliceEnd = Math.floor(((indices[i] + 1) / numLines) * bufferLength);
+      const sliceData = dataArray.slice(sliceStart, sliceEnd);
+      let averageValue = sliceData.reduce((a, b) => a + b) / sliceData.length;
+
+      // 막대의 강도 조정
+      if (i === 2) {
+        averageValue *= 0.8;
+      } else if (i === 1 || i === 3) {
+        averageValue *= 1.1;
+      } else if (i === 0 || i === 4) {
+        averageValue *= 1.2;
+      } else {
+        averageValue *= 1.3;
+      }
+
+      let barHeight = averageValue / 2;
+      barHeight = Math.max(15, barHeight); // 최소값
+      barHeight = Math.min(70, barHeight); // 최대값
+
+      const x = startX + i * (lineWidth + barSpacing); // 막대의 X 위치 계산
+      const y = centerY - barHeight; // 막대의 Y 위치 계산
+
+      // 막대 그리기
+      canvasCtx.fillStyle = "black";
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(x + 8, y); // 좌측 상단의 둥근 모서리 시작
+      canvasCtx.lineTo(x + lineWidth - 8, y); // 상단 직선
+      canvasCtx.arcTo(x + lineWidth, y, x + lineWidth, y + 8, 7); // 우측 상단의 둥근 모서리
+      canvasCtx.lineTo(x + lineWidth, y + barHeight * 2 - 8); // 우측 직선
+      canvasCtx.arcTo(
+        x + lineWidth,
+        y + barHeight * 2,
+        x + lineWidth - 8,
+        y + barHeight * 2,
+        7
+      ); // 우측 하단의 둥근 모서리
+      canvasCtx.lineTo(x + 8, y + barHeight * 2); // 하단 직선
+      canvasCtx.arcTo(x, y + barHeight * 2, x, y + barHeight * 2 - 8, 7); // 좌측 하단의 둥근 모서리
+      canvasCtx.lineTo(x, y + 8); // 좌측 직선
+      canvasCtx.arcTo(x, y, x + 8, y, 7); // 좌측 상단의 둥근 모서리
+      canvasCtx.fill(); // 채우기
     }
 
     animationRef.current = requestAnimationFrame(visualize);
@@ -111,6 +171,7 @@ const SpeechToText = ({ onResult }) => {
     if (recognition && !isListening) {
       recognition.start();
       setIsListening(true);
+      setInputValue("");
     }
   };
 
@@ -129,28 +190,36 @@ const SpeechToText = ({ onResult }) => {
   return (
     <>
       <div className={`flex items-center ${isListening ? "w-full" : ""}`}>
-        {isListening ? (
-          <>
-            <button
-              type="button"
-              className="border p-2 rounded-full"
-              onClick={stopRecognition}
-              disabled={!isListening}
-            >
-              <div className="w-2 h-2 bg-black"></div>
-            </button>
-            <canvas id="visualizer" className="w-full h-full px-8"></canvas>
-          </>
-        ) : (
+        <div
+          className={`${
+            isListening ? "bottom-0 " : "bottom-[-50rem] opacity-0"
+          } transition-all ease-in-out duration-500 bg-primary fixed w-full h-[24rem] left-0 rounded-t-[20px] flex flex-col justify-center items-center z-10`}
+        >
           <button
             type="button"
-            className="bg-white p-1 rounded-full"
-            onClick={startRecognition}
-            disabled={isListening}
+            className="border p-1 rounded-full absolute top-4 right-4 bg-white"
+            onClick={stopRecognition}
+            disabled={!isListening}
           >
-            <Image src="/voice.png" alt="microphone" width={20} height={20} />
+            <Image src="/keyboard.png" alt="keyboard" width={21} height={21} />
           </button>
-        )}
+          <div className="relative w-[6rem] h-[6rem] bg-white rounded-full flex justify-center items-center">
+            <div className="w-[9rem] absolute top-3 right-[-1.5rem]">
+              <canvas id="visualizer" className="w-full h-full"></canvas>
+            </div>
+          </div>
+          <div className="mt-4 text-2xl px-8 max-h-[14rem] overflow-y-auto">
+            <p className="text-white text-center">{inputValue}</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          className="bg-white p-1 rounded-full"
+          onClick={startRecognition}
+          disabled={isListening}
+        >
+          <Image src="/voice.png" alt="microphone" width={20} height={20} />
+        </button>
       </div>
     </>
   );
