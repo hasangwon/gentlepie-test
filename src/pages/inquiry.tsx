@@ -78,7 +78,7 @@ const Inquiry: React.FC = () => {
               </p>
               <form className="w-full flex flex-col items-center mt-8 gap-6">
                 <div className="flex items-center">
-                  <h3 className="text-[30px] font-semibold mr-8 w-[6.5rem] select-none">
+                  <h3 className="text-[30px] font-semibold mr-12 w-[6.5rem] select-none">
                     이름
                   </h3>
                   <input
@@ -94,7 +94,7 @@ const Inquiry: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center">
-                  <h3 className="text-[30px] font-semibold mr-8 w-[6.5rem] select-none">
+                  <h3 className="text-[30px] font-semibold mr-12 w-[6.5rem] select-none">
                     생년월일
                   </h3>
                   <input
@@ -111,7 +111,7 @@ const Inquiry: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center">
-                  <h3 className="text-[30px] font-semibold mr-8 w-[6.5rem] select-none">
+                  <h3 className="text-[30px] font-semibold mr-12 w-[6.5rem] select-none">
                     전화번호
                   </h3>
                   <input
@@ -134,7 +134,7 @@ const Inquiry: React.FC = () => {
                     setPageIndex(1);
                     initUserInfo();
                   }}
-                  className="text-lg px-8 py-2 border border-gentle-light rounded-md mt-[6rem] hover:bg-gentle-light mr-4"
+                  className="text-lg px-8 py-2 border border-gentle-light rounded-md mt-[6rem] hover:bg-gentle-light mr-8"
                 >
                   취소
                 </button>
@@ -158,7 +158,7 @@ const Inquiry: React.FC = () => {
           ) : (
             <div className="bg-transparent h-[calc(100%-3.75rem)] w-full flex flex-col items-center justify-center z-10">
               <div className="h-full overflow-y-auto">
-                {isLoading ? (
+                {!isLoading ? (
                   <div className="w-full h-full flex items-center ">
                     <div className="inquiry_loader"></div>
                   </div>
@@ -176,6 +176,7 @@ const Inquiry: React.FC = () => {
                 inputValue={inputValue}
                 setInputValue={setInputValue}
                 handleSendMessage={handleSendMessage}
+                isLoading={isLoading}
               />
             </div>
           )}
