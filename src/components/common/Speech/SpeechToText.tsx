@@ -214,11 +214,11 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
         </div>
         <button
           type="button"
-          className="bg-white p-1 rounded-full"
+          className="bg-white p-2 rounded-full ml-4"
           onClick={startRecognition}
           disabled={isListening}
         >
-          <Image src="/voice.png" alt="microphone" width={20} height={20} />
+          <Image src="/voice.png" alt="microphone" width={24} height={24} />
         </button>
       </div>
     </>

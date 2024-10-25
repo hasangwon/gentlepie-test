@@ -4,8 +4,8 @@ const NextButton = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="34"
-      height="32"
+      width="52"
+      height="50"
       viewBox="0 0 34 32"
       fill="none"
     >

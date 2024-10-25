@@ -11,7 +11,7 @@ const BotMessage = ({
   scrollToBottom: () => void;
 }) => {
   return (
-    <div className="overflow-y-auto min-h-[30rem] p-16 text-[24px] font-semibold text-center flex justify-center items-center text-bublitt-text">
+    <div className="overflow-y-auto min-h-[30rem] py-16 px-[10rem] text-[24px] font-semibold text-center flex justify-center items-center text-bublitt-text leading-10">
       <TypingEffect
         text={message}
         speed={getTypingSpeed(message.length)}

@@ -52,10 +52,10 @@ const InquryInput = ({
             }
           }}
         />
-        <div className="flex mr-4 items-end">
+        <div className="flex mr-4 items-center">
           <button
             onClick={handleSubmit}
-            className="flex justify-center items-center mr-1"
+            className="flex justify-center items-center mb-2"
           >
             <NextButton />
           </button>
