@@ -193,7 +193,7 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
         <div
           className={`${
             isListening ? "bottom-0 " : "bottom-[-50rem] opacity-0"
-          } transition-all ease-in-out duration-500 bg-primary fixed w-full h-[24rem] left-0 rounded-t-[20px] flex flex-col justify-center items-center z-10`}
+          } max-w-[1280px] transition-all ease-in-out duration-500 bg-primary fixed w-full h-[24rem] left-1/2 transform -translate-x-1/2 rounded-t-[20px] flex flex-col justify-center items-center z-10`}
         >
           <button
             type="button"

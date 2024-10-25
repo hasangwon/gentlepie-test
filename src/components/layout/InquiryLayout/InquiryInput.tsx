@@ -28,6 +28,16 @@ const InquryInput = ({
   return (
     <div className="relative w-full px-4 py-2 text-base">
       <div className="relative w-full h-[5rem] bg-primary flex border border-primary rounded-[30px] mb-2 py-[14px]">
+        {/* <SpeechToText
+          onResult={(transcript: any) => {
+            console.log("바로 동작", transcript);
+            console.log("적용", transcript);
+
+            setInputValue(transcript);
+          }}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+        /> */}
         <textarea
           ref={inputRef}
           value={inputValue}
@@ -49,16 +59,6 @@ const InquryInput = ({
           >
             <NextButton />
           </button>
-          <SpeechToText
-            onResult={(transcript: any) => {
-              console.log("바로 동작", transcript);
-              console.log("적용", transcript);
-
-              setInputValue(transcript);
-            }}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-          />
         </div>
       </div>
     </div>

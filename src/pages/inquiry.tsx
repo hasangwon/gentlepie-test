@@ -38,7 +38,7 @@ const Inquiry: React.FC = () => {
       </Head>
 
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
-        <div className="w-full h-full flex flex-col items-between min-w-[320px] max-w-[720px] bg-white relative">
+        <div className="w-full h-full flex flex-col items-between min-w-[320px] max-w-[1280px] bg-white relative">
           <Header title={"문진 챗봇"} titleStyle={""} />
           <div className="absolute top-[-4rem] right-0 w-[50%] min-w-[16rem] h-auto">
             <img
