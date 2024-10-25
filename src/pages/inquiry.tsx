@@ -157,9 +157,9 @@ const Inquiry: React.FC = () => {
             </div>
           ) : (
             <div className="bg-transparent h-[calc(100%-3.75rem)] w-full flex flex-col items-center justify-center z-10">
-              <div className="h-full overflow-y-auto">
+              <div className="h-full overflow-y-auto w-full">
                 {isLoading ? (
-                  <div className="w-full h-full flex items-center ">
+                  <div className="w-full h-full flex items-center justify-center">
                     <div className="inquiry_loader"></div>
                   </div>
                 ) : (
