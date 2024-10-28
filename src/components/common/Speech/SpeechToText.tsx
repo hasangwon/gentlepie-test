@@ -1,16 +1,23 @@
-// @ts-nocheck
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
-  const [recognition, setRecognition] = useState(null);
+const SpeechToText = ({
+  onResult,
+  inputValue,
+  setInputValue,
+}: {
+  onResult: any;
+  inputValue: string;
+  setInputValue: any;
+}) => {
+  const [recognition, setRecognition] = useState<any>(null);
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const audioContextRef = useRef(null);
-  const analyserRef = useRef(null);
-  const dataArrayRef = useRef(null);
-  const animationRef = useRef(null);
-  const mediaStreamRef = useRef(null); // 미디어 스트림 저장
+  const animationRef = useRef<any>(null);
+  const audioContextRef = useRef<any>(null);
+  const analyserRef = useRef<any>(null);
+  const dataArrayRef = useRef<any>(null);
+  const mediaStreamRef = useRef<any>(null);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -21,7 +28,7 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
       recognitionInstance.continuous = true; // Keep recognizing even if there's a pause
       recognitionInstance.interimResults = true; // Show interim results for real-time updates
 
-      recognitionInstance.onresult = (event) => {
+      recognitionInstance.onresult = (event: any) => {
         let interimTranscript = ""; // 중간 텍스트
         let finalTranscript = ""; // 최종 텍스트
 
@@ -46,7 +53,7 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
         }
       };
 
-      recognitionInstance.onerror = (event) => {
+      recognitionInstance.onerror = (event: any) => {
         console.error("Speech recognition error detected: " + event.error);
         if (event.error === "no-speech") {
           console.log("No speech detected, restarting recognition...");
@@ -72,19 +79,18 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
         analyserRef.current.frequencyBinCount
       );
 
-      // 마이크 스트림 가져오기
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream) => {
-          mediaStreamRef.current = stream; // 스트림 저장
+          mediaStreamRef.current = stream;
           const source =
-            audioContextRef.current.createMediaStreamSource(stream);
-          source.connect(analyserRef.current);
+            audioContextRef.current!.createMediaStreamSource(stream);
+          source.connect(analyserRef.current!);
           visualize();
         })
         .catch((error) => {
           console.error("Error accessing microphone: ", error);
-          setIsListening(false); // 에러 발생 시 듣기 상태 비활성화
+          setIsListening(false);
         });
 
       return () => {
@@ -102,7 +108,9 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
     if (!analyserRef.current) return;
     analyserRef.current.getByteFrequencyData(dataArrayRef.current);
 
-    const canvas = document.getElementById("visualizer");
+    const canvas = document.getElementById("visualizer") as any;
+
+    if (!canvas) return;
     const canvasCtx = canvas.getContext("2d");
     const bufferLength = analyserRef.current.frequencyBinCount;
     const dataArray = dataArrayRef.current; // 주파수 데이터 배열
@@ -123,7 +131,8 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
       const sliceStart = Math.floor((indices[i] / numLines) * bufferLength);
       const sliceEnd = Math.floor(((indices[i] + 1) / numLines) * bufferLength);
       const sliceData = dataArray.slice(sliceStart, sliceEnd);
-      let averageValue = sliceData.reduce((a, b) => a + b) / sliceData.length;
+      let averageValue =
+        sliceData.reduce((a: any, b: any) => a + b) / sliceData.length;
 
       // 막대의 강도 조정
       if (i === 2) {
@@ -182,7 +191,9 @@ const SpeechToText = ({ onResult, inputValue, setInputValue }) => {
 
       // 마이크 스트림을 중지하여 녹음 표시 제거
       if (mediaStreamRef.current) {
-        mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+        mediaStreamRef.current
+          .getTracks()
+          .forEach((track: any) => track.stop());
       }
     }
   };
