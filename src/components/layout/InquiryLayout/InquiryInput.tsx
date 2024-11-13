@@ -2,17 +2,7 @@ import SpeechToText from "@/components/common/Speech/SpeechToText";
 import NextButton from "@/components/common/Svg/NextButton";
 import React, { useRef, useEffect, useState } from "react";
 
-const InquryInput = ({
-  inputValue,
-  setInputValue,
-  handleSendMessage,
-  isLoading,
-}: {
-  inputValue: string;
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSendMessage: (userMessage: string) => void;
-  isLoading: boolean;
-}) => {
+const InquryInput = ({ inputValue, setInputValue, handleSendMessage, isLoading }: { inputValue: string; setInputValue: React.Dispatch<React.SetStateAction<string>>; handleSendMessage: (userMessage: string) => void; isLoading: boolean }) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -41,13 +31,18 @@ const InquryInput = ({
   return (
     <div className="relative w-full px-4 py-2 text-base">
       <div className="relative w-full h-[5rem] bg-primary flex border border-primary rounded-[30px] mb-2 py-[14px]">
-        {/* <SpeechToText
+        <SpeechToText
           onResult={(transcript: any) => {
             setInputValue(transcript);
           }}
           inputValue={inputValue}
           setInputValue={setInputValue}
-        /> */}
+          onEnd={() => {
+            handleSendMessage(inputValue);
+            console.log("onEnd", inputValue);
+            setInputValue("");
+          }}
+        />
         <textarea
           ref={inputRef}
           value={inputValue}
@@ -64,11 +59,7 @@ const InquryInput = ({
           }}
         />
         <div className="flex mr-4 items-center">
-          <button
-            onClick={handleSubmit}
-            disabled={isLoading}
-            className="flex justify-center items-center mb-2"
-          >
+          <button onClick={handleSubmit} disabled={isLoading} className="flex justify-center items-center mb-2">
             <NextButton />
           </button>
         </div>
