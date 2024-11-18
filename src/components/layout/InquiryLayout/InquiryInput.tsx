@@ -2,7 +2,17 @@ import SpeechToText from "@/components/common/Speech/SpeechToText";
 import NextButton from "@/components/common/Svg/NextButton";
 import React, { useRef, useEffect, useState } from "react";
 
-const InquryInput = ({ inputValue, setInputValue, handleSendMessage, isLoading }: { inputValue: string; setInputValue: React.Dispatch<React.SetStateAction<string>>; handleSendMessage: (userMessage: string) => void; isLoading: boolean }) => {
+const InquryInput = ({
+  inputValue,
+  setInputValue,
+  handleSendMessage,
+  isLoading,
+}: {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSendMessage: (userMessage: string) => void;
+  isLoading: boolean;
+}) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -59,7 +69,11 @@ const InquryInput = ({ inputValue, setInputValue, handleSendMessage, isLoading }
           }}
         />
         <div className="flex mr-4 items-center">
-          <button onClick={handleSubmit} disabled={isLoading} className="flex justify-center items-center mb-2">
+          <button
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="flex justify-center items-center mb-2"
+          >
             <NextButton />
           </button>
         </div>

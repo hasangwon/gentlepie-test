@@ -4,7 +4,17 @@ import useVisualize from "@/hooks/useVisualize";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
 
-const SpeechToText = ({ onResult, inputValue, setInputValue, onEnd }: { onEnd: any; onResult: (text: string) => void; inputValue: string; setInputValue: (value: string) => void }) => {
+const SpeechToText = ({
+  onResult,
+  inputValue,
+  setInputValue,
+  onEnd,
+}: {
+  onEnd: any;
+  onResult: (text: string) => void;
+  inputValue: string;
+  setInputValue: (value: string) => void;
+}) => {
   const [recognition, setRecognition] = useState<any>(null);
   const [sttListening, setSttListening] = useRecoilState(sttState);
 
@@ -15,7 +25,8 @@ const SpeechToText = ({ onResult, inputValue, setInputValue, onEnd }: { onEnd: a
   useEffect(() => {
     if (!sttListening) return;
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognitionInstance = new SpeechRecognition();
       recognitionInstance.lang = "ko-KR";
@@ -36,7 +47,11 @@ const SpeechToText = ({ onResult, inputValue, setInputValue, onEnd }: { onEnd: a
         }
 
         if (onResult) {
-          onResult(finalTranscript || interimTranscript);
+          onResult(interimTranscript);
+        }
+
+        if (finalTranscript) {
+          onResult(finalTranscript);
         }
       };
 
@@ -108,19 +123,42 @@ const SpeechToText = ({ onResult, inputValue, setInputValue, onEnd }: { onEnd: a
     }
 
     if (mediaStreamRef.current) {
-      const audioTracks = mediaStreamRef.current.getTracks().filter((track: any) => track.kind === "audio" && track.readyState === "live");
+      const audioTracks = mediaStreamRef.current
+        .getTracks()
+        .filter(
+          (track: any) => track.kind === "audio" && track.readyState === "live"
+        );
       if (audioTracks.length > 0) {
         audioTracks.forEach((track: any) => track.stop());
         console.log("Media stream stopped.");
         mediaStreamRef.current = null;
       }
+      // 타이머가 설정되어 있으면 초기화
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    } else {
+      console.log(3);
+      setSttListening(false);
     }
   };
 
+  console.log("isListening: ", sttListening);
+
   return (
     <div className={`flex items-center ${sttListening ? "w-full" : ""}`}>
-      <div className={`${sttListening ? "bottom-0 " : "bottom-[-50rem] opacity-0"} max-w-[1280px] transition-all ease-in-out duration-500 bg-primary fixed w-full h-[24rem] left-1/2 transform -translate-x-1/2 rounded-t-[20px] flex flex-col justify-center items-center z-10`}>
-        <button type="button" className="border p-1 rounded-full absolute top-4 right-4 bg-white" onClick={stopRecognition} disabled={!sttListening}>
+      <div
+        className={`${
+          sttListening ? "bottom-0 " : "bottom-[-50rem] opacity-0"
+        } max-w-[1280px] transition-all ease-in-out duration-500 bg-primary fixed w-full h-[24rem] left-1/2 transform -translate-x-1/2 rounded-t-[20px] flex flex-col justify-center items-center z-10`}
+      >
+        <button
+          type="button"
+          className="border p-1 rounded-full absolute top-4 right-4 bg-white"
+          onClick={stopRecognition}
+          disabled={!sttListening}
+        >
           <Image src="/keyboard.png" alt="keyboard" width={21} height={21} />
         </button>
         <div className="relative w-[6rem] h-[6rem] bg-white rounded-full flex justify-center items-center">
@@ -132,7 +170,12 @@ const SpeechToText = ({ onResult, inputValue, setInputValue, onEnd }: { onEnd: a
           <p className="text-white text-center">{inputValue}</p>
         </div>
       </div>
-      <button type="button" className="bg-white p-2 rounded-full ml-4" onClick={startRecognition} disabled={sttListening}>
+      <button
+        type="button"
+        className="bg-white p-2 rounded-full ml-4"
+        onClick={startRecognition}
+        disabled={sttListening}
+      >
         <Image src="/voice.png" alt="microphone" width={24} height={24} />
       </button>
     </div>

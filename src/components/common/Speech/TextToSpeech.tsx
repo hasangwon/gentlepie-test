@@ -27,6 +27,10 @@ const TextToSpeech = ({
     setIsSpeaking(false);
   };
 
+  React.useEffect(() => {
+    handleSpeak();
+  }, [text]);
+
   return (
     <div className="flex w-full justify-end mt-2 items-center">
       {isSpeaking ? (

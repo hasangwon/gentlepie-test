@@ -40,7 +40,7 @@ const Inquiry: React.FC = () => {
       </Head>
 
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
-        <div className="w-full h-full flex flex-col items-between min-w-[320px] max-w-[1280px] bg-white relative">
+        <div className="w-full h-full flex flex-col items-between min-w-[240px] max-w-[1280px] bg-white relative">
           <Header title={"문진 챗봇"} titleStyle={""} />
           <div className="absolute top-[-4rem] right-0 w-[50%] min-w-[16rem] h-auto">
             <img
@@ -79,7 +79,7 @@ const Inquiry: React.FC = () => {
                 입력해주세요.
               </p>
               <form className="w-full flex flex-col items-center mt-8 gap-6">
-                <div className="flex items-center">
+                <div className="w-full flex justify-center items-center px-4">
                   <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">
                     이름
                   </h3>
@@ -92,27 +92,38 @@ const Inquiry: React.FC = () => {
                       }
                     }}
                     placeholder="입력"
-                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center"
+                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center w-[12rem]"
                   />
                 </div>
-                <div className="flex items-center">
+                <div className="w-full flex justify-center items-center px-4">
                   <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">
-                    생년월일
+                    주민번호
                   </h3>
                   <input
                     type="text"
-                    value={userBirth}
+                    value={userBirth.slice(0, 6)}
                     onChange={(e) => {
-                      const birthRegex = /^[0-9.-]{0,10}$/; // 숫자, `.` 및 `-`만 허용, 최대 10자
-                      if (birthRegex.test(e.target.value)) {
-                        setUserBirth(e.target.value);
-                      }
+                      const input = e.target.value.replace(/[^0-9]/g, "");
+                      setUserBirth(input.slice(0, 6));
                     }}
-                    placeholder="YYYY.MM.DD"
-                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center"
+                    placeholder="앞 6자리"
+                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center w-[5.75rem] mr-2"
+                  />
+                  <input
+                    type="password"
+                    value={userBirth.slice(6, 13)}
+                    onChange={(e) => {
+                      const input = e.target.value.replace(/[^0-9]/g, "");
+                      setUserBirth(
+                        (prev) => prev.slice(0, 6) + input.slice(0, 7)
+                      );
+                    }}
+                    placeholder="뒤 7자리"
+                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center w-[5.75rem]"
                   />
                 </div>
-                <div className="flex items-center">
+
+                <div className="w-full flex justify-center items-center px-4">
                   <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">
                     전화번호
                   </h3>
@@ -120,13 +131,26 @@ const Inquiry: React.FC = () => {
                     type="text"
                     value={userPhoneNumber}
                     onChange={(e) => {
-                      const phoneRegex = /^[0-9.-]{0,13}$/; // 숫자, `.` 및 `-`만 허용, 최대 13자
-                      if (phoneRegex.test(e.target.value)) {
-                        setUserPhoneNumber(e.target.value);
+                      const input = e.target.value.replace(/[^0-9]/g, "");
+                      let formattedInput = input;
+
+                      if (input.length > 3 && input.length <= 7) {
+                        formattedInput =
+                          input.slice(0, 3) + "-" + input.slice(3);
+                      } else if (input.length > 7) {
+                        formattedInput =
+                          input.slice(0, 3) +
+                          "-" +
+                          input.slice(3, 7) +
+                          "-" +
+                          input.slice(7, 11);
+                      }
+                      if (formattedInput.length <= 13) {
+                        setUserPhoneNumber(formattedInput);
                       }
                     }}
-                    placeholder="000-0000-0000"
-                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center"
+                    placeholder="휴대폰 번호 11자리"
+                    className="border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-center w-[12rem]"
                   />
                 </div>
               </form>
@@ -147,7 +171,8 @@ const Inquiry: React.FC = () => {
                       userBirth === "" ||
                       userPhoneNumber === ""
                     ) {
-                      return alert("모든 정보를 입력해주세요.");
+                      alert("모든 정보를 입력해주세요.");
+                      return;
                     }
                     setPageIndex(3);
                   }}
