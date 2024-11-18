@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Head from "next/head";
 import Header from "@/components/common/Element/Header";
 import InquryInput from "@/components/layout/InquiryLayout/InquiryInput";
@@ -17,7 +17,14 @@ const Inquiry: React.FC = () => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-  const { inputValue, setInputValue, botMessage, isLoading, handleSendMessage } = useInquiry();
+  const {
+    inputValue,
+    setInputValue,
+    botMessage,
+    isLoading,
+    handleSendMessage,
+    audioRef,
+  } = useInquiry();
 
   const initUserInfo = () => {
     setUserName("");
@@ -25,6 +32,7 @@ const Inquiry: React.FC = () => {
     setUserPhoneNumber("");
   };
 
+  console.log("run");
   return (
     <>
       <Head>
@@ -35,7 +43,11 @@ const Inquiry: React.FC = () => {
         <div className="w-full h-full flex flex-col items-between min-w-[320px] max-w-[1280px] bg-white relative">
           <Header title={"문진 챗봇"} titleStyle={""} />
           <div className="absolute top-[-4rem] right-0 w-[50%] min-w-[16rem] h-auto">
-            <img src="/gradient_circle.svg" alt="logo" className="w-full h-auto" />
+            <img
+              src="/gradient_circle.svg"
+              alt="logo"
+              className="w-full h-auto"
+            />
           </div>
           {pageIndex === 1 ? (
             <div className="w-full h-full flex flex-col justify-center items-center z-10 max-h-full">
@@ -68,7 +80,9 @@ const Inquiry: React.FC = () => {
               </p>
               <form className="w-full flex flex-col items-center mt-8 gap-6">
                 <div className="flex items-center">
-                  <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">이름</h3>
+                  <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">
+                    이름
+                  </h3>
                   <input
                     type="text"
                     value={userName}
@@ -82,7 +96,9 @@ const Inquiry: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center">
-                  <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">생년월일</h3>
+                  <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">
+                    생년월일
+                  </h3>
                   <input
                     type="text"
                     value={userBirth}
@@ -97,7 +113,9 @@ const Inquiry: React.FC = () => {
                   />
                 </div>
                 <div className="flex items-center">
-                  <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">전화번호</h3>
+                  <h3 className="text-[24px] sm:text-[30px] font-semibold sm:mr-12 mr-4 w-[6.5rem] select-none">
+                    전화번호
+                  </h3>
                   <input
                     type="text"
                     value={userPhoneNumber}
@@ -124,7 +142,11 @@ const Inquiry: React.FC = () => {
                 </button>
                 <button
                   onClick={() => {
-                    if (userName === "" || userBirth === "" || userPhoneNumber === "") {
+                    if (
+                      userName === "" ||
+                      userBirth === "" ||
+                      userPhoneNumber === ""
+                    ) {
                       return alert("모든 정보를 입력해주세요.");
                     }
                     setPageIndex(3);
@@ -144,12 +166,21 @@ const Inquiry: React.FC = () => {
                   </div>
                 ) : (
                   <>
-                    <BotMessage message={botMessage} scrollToBottom={scrollToBottom} />
+                    <BotMessage
+                      message={botMessage}
+                      scrollToBottom={scrollToBottom}
+                      audioRef={audioRef}
+                    />
                     <div ref={messagesEndRef} />
                   </>
                 )}
               </div>
-              <InquryInput inputValue={inputValue} setInputValue={setInputValue} handleSendMessage={handleSendMessage} isLoading={isLoading} />
+              <InquryInput
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                handleSendMessage={handleSendMessage}
+                isLoading={isLoading}
+              />
             </div>
           )}
         </div>
