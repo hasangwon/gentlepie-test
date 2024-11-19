@@ -27,9 +27,9 @@ const STTInput: React.FC<ChatInputProps> = ({ inputValue, setInputValue }) => {
           inputValue={inputValue}
           setInputValue={setInputValue}
           onResult={(transcript: any) => {
-            console.log(transcript);
             setInputValue(transcript);
           }}
+          onEnd={() => {}}
         />
         {!isListening && (
           <>

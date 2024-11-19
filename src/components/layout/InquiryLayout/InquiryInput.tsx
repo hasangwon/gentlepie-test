@@ -6,37 +6,39 @@ const InquryInput = ({
   inputValue,
   setInputValue,
   handleSendMessage,
+  handleSendMessageStream,
   isLoading,
 }: {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   handleSendMessage: (userMessage: string) => void;
+  handleSendMessageStream: (userMessage: string) => void;
   isLoading: boolean;
 }) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    handleSendMessage(inputValue);
+    handleSendMessageStream(inputValue);
     setInputValue("");
   };
 
-  const handleBlur = () => {
-    if (inputRef.current) {
-      inputRef.current.blur(); // input 요소의 포커스를 해제
-    }
-  };
-  useEffect(() => {
-    if (inputRef && inputRef?.current) {
-      handleBlur();
-    }
-  }, []);
+  // const handleBlur = () => {
+  //   if (inputRef.current) {
+  //     inputRef.current.blur();
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (inputRef && inputRef?.current) {
+  //     handleBlur();
+  //   }
+  // }, []);
 
   return (
     <div className="relative w-full px-4 py-2 text-base">
@@ -48,8 +50,7 @@ const InquryInput = ({
           inputValue={inputValue}
           setInputValue={setInputValue}
           onEnd={() => {
-            handleSendMessage(inputValue);
-            console.log("onEnd", inputValue);
+            handleSendMessageStream(inputValue);
             setInputValue("");
           }}
         />

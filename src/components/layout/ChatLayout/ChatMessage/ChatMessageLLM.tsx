@@ -1,7 +1,7 @@
-import MessageContainer from "@/components/common/Container/MessageContainer";
+import React from "react";
 import TypingEffect from "@/components/common/Typing/TypingEffect";
 import { getTypingSpeed } from "@/utils/getTypingSpeed";
-import React from "react";
+import MessageContainer from "../Container/MessageContainer";
 
 const LLMMessage = ({
   message,

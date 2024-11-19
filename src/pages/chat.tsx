@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import ChatInput from "@/components/layout/ChatLayout/ChatInput";
 import ChatBox from "@/components/layout/ChatLayout/ChatBox";
-import useChat from "@/hooks/useChat/useChat";
+import useChat from "@/hooks/chat/useChat/useChat";
 
 const Chat: React.FC = () => {
   const { messages, inputValue, setInputValue, loading, handleSendMessage } =

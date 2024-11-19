@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import useVisualize from "@/hooks/useVisualize";
+import useVisualize from "@/hooks/inquiry/useVisualize";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
 
 const SpeechToText = ({
-  onResult,
   inputValue,
   setInputValue,
+  onResult,
   onEnd,
 }: {
-  onEnd: any;
-  onResult: (text: string) => void;
   inputValue: string;
   setInputValue: (value: string) => void;
+  onResult: (text: string) => void;
+  onEnd?: any;
 }) => {
   const [recognition, setRecognition] = useState<any>(null);
   const [sttListening, setSttListening] = useRecoilState(sttState);
@@ -81,11 +81,6 @@ const SpeechToText = ({
     }
   }, [sttListening]);
 
-  // Debugging: recognition state changes
-  useEffect(() => {
-    console.log("recognition", recognition);
-  }, [recognition]);
-
   // inputValue가 변경될 때마다 타이머를 초기화하는 useEffect
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -139,7 +134,6 @@ const SpeechToText = ({
         timeoutRef.current = null;
       }
     } else {
-      console.log(3);
       setSttListening(false);
     }
   };

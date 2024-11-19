@@ -1,6 +1,6 @@
 import React from "react";
 
-import useChat from "@/hooks/useSTTChat/useChat";
+import useChat from "@/hooks/stt/useSTTChat/useChat";
 import Head from "next/head";
 import STTInput from "@/components/layout/STTLayout/STTInput";
 import STTHeader from "@/components/layout/STTLayout/STTHeader";
