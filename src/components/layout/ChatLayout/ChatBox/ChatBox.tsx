@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { MessageType } from "@/types/messageType";
 import ChatMessage from "../ChatMessage";
-import MessageContainer from "@/components/common/Container/MessageContainer";
 import ChatLoadingView from "./ChatLoadingView";
 
 const ChatBox = ({
