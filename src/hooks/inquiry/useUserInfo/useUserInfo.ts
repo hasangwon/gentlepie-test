@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { painAreaState } from "@/store/painAreaState";
+import { useRef, useState } from "react";
+import { useRecoilState } from "recoil";
 
 export const useUserInfo = (handlePageIndex: (index: number) => void) => {
   const [userName, setUserName] = useState("");
   const [userBirth, setUserBirth] = useState("");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
-  const [painArea, setPainArea] = useState("");
+  const [painArea, setPainArea] = useRecoilState(painAreaState);
+  const backRef = useRef<HTMLInputElement>(null);
   const painAreas = [
     "목 통증, 두통",
     "어깨, 가슴, 등 통증",
@@ -30,6 +33,9 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
   const handleBirthFront = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.replace(/[^0-9]/g, "");
     setUserBirth(input.slice(0, 6));
+    if (backRef && backRef.current && input.length === 6) {
+      backRef.current.focus();
+    }
   };
 
   const handleBirthBack = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +89,8 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
     handleSubmit,
     handleCancel,
     handlePainArea,
-    painAreas
+    painAreas,
+    backRef
   };
 };
 

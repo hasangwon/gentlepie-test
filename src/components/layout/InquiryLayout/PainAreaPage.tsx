@@ -1,0 +1,52 @@
+/* eslint-disable @next/next/no-img-element */
+import React from "react";
+import ContentContainer, { Content } from "./ContentContainer";
+
+const PainAreaPage = ({
+  painAreas,
+  handlePainArea,
+}: {
+  painAreas: string[];
+  handlePainArea: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}) => {
+  const painTitle = "먼저 통증 부위를\n선택해 주세요.";
+  const painDescription =
+    "문진은 선택한 부위에 따라\n최대 18개 항목으로 구성됩니다.";
+
+  return (
+    <div
+      className={`relative w-full h-full flex flex-col items-center justify-center z-10 overflow-y-auto`}
+    >
+      <div
+        className={`text-center flex-col select-none whitespace-pre-wrap pt-4 min-h-[40rem]`}
+      >
+        <div className="text-lg mb-4">{painDescription}</div>
+        <p className="text-3xl font-semibold leading-10">{painTitle}</p>
+
+        <div className="overflow-y-auto">
+          <div className="py-4 px-8 flex flex-col items-center mt-4 gap-4 bg-[rgba(229,255,223,0.3)] mb-4 h-full">
+            {painAreas.map((area, index) => (
+              <button
+                key={index}
+                value={area}
+                onClick={handlePainArea}
+                className="text-lg font-semibold w-[15rem] h-[3rem] bg-white border py-2 rounded-lg hover:bg-primary hover:text-white"
+              >
+                {area}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="fixed bottom-[-8rem] left-[-4rem] w-[60%] min-w-[15rem] max-w-[30rem] h-auto z-[-10]">
+          <img
+            src="/gradient_circle.svg"
+            alt="logo"
+            className="w-full h-auto"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PainAreaPage;

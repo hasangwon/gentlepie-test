@@ -5,7 +5,6 @@ const MessageContainer = ({
   className,
 }: {
   children: React.ReactNode;
-
   className?: string;
 }) => {
   return (

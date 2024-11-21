@@ -14,18 +14,18 @@ const useInquiryApi = () => {
   const sendMessageStream = async (
     message: string,
     threadId: string,
+    position: string,
     onMessage: (data: string) => void,
-    onComplete: () => void
+    onComplete: (threadId?: string) => void
   ) => {
     const endpoint = "https://doctorchat-internal.gentlepie.com/stream";
-
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ input: message, threadId: threadId }),
+        body: JSON.stringify({ input: message, position: position, threadId: threadId }),
       });
 
 
@@ -37,36 +37,42 @@ const useInquiryApi = () => {
         throw new Error("Stream response body is null");
       }
 
-      const reader = response.body.getReader()
+      const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
-      let partialChunk = ""; // 끊긴 데이터 처리를 위한 변수
+      let partialChunk = "";
+      let savedThreadId: string | undefined;
+      let firstThreadSaved = false;
 
       while (true) {
-        const { value, done } = await reader.read()
-        if (done) break
+        const { value, done } = await reader.read();
+        if (done) break;
 
         const text = decoder.decode(value, { stream: true });
         const lines = (partialChunk + text).split("\n");
-        partialChunk = lines.pop() || ""; // 마지막 줄이 완전하지 않으면 저장
+        partialChunk = lines.pop() || "";
 
         for (const line of lines) {
           if (line.startsWith("data: ")) {
             const data = line.slice(6);
 
             if (data === "[DONE]") {
-              break; // 스트리밍 종료 신호 처리
+              break;
             }
 
             try {
-              onMessage(data); // 메시지 전달
+              if (!firstThreadSaved && data.startsWith("[THREAD]")) {
+                savedThreadId = data.replace("[THREAD] ", "").trim();
+                firstThreadSaved = true;
+              } else {
+                onMessage(data);
+              }
             } catch (e) {
               console.error("Error in onMessage callback:", e);
             }
           }
         }
 
-        // 첫 번째 데이터 처리 후 바로 로딩 종료
-        onComplete();
+        onComplete(savedThreadId);
       }
     } catch (error) {
       console.error("Failed to stream message:", error);

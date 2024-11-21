@@ -1,10 +1,11 @@
 import { useState } from "react";
 import useInquiryApi from "./useInquiryApi";
+import { useRecoilState } from "recoil";
+import { painAreaState } from "@/store/painAreaState";
 
 const useInquiry = () => {
-  const {} = useInquiryApi();
   const { sendMessage, sendMessageStream } = useInquiryApi();
-
+  const [painArea, setPainArea] = useRecoilState(painAreaState);
   const [inputValue, setInputValue] = useState("");
   const [userMessages, setUserMessages] = useState<any[]>([]);
   const [botMessage, setBotMessage] = useState(
@@ -43,11 +44,13 @@ const useInquiry = () => {
     try {
       await sendMessageStream(
         userMessage,
-        threadId,
+        "" || threadId, // threadId와 painArea 둘 다 아직 정의 못받음
+        "두통" || painArea,
         (string) => {
           setBotMessage((prev) => prev + string);
         },
-        () => {
+        (savedThreadId) => {
+          setThreadId(savedThreadId || "");
           setIsLoading(false);
         }
       );

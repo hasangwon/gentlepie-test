@@ -10,6 +10,7 @@ import useInquiry from "@/hooks/inquiry/useInquiry";
 import useInquiryPageControl from "@/hooks/inquiry/useInquiryPageControl";
 import useTTS from "@/hooks/inquiry/useTTS";
 import useUserInfo from "@/hooks/inquiry/useUserInfo";
+import PainAreaPage from "@/components/layout/InquiryLayout/PainAreaPage";
 
 const Inquiry: React.FC = () => {
   const {
@@ -36,6 +37,7 @@ const Inquiry: React.FC = () => {
     handleCancel,
     handlePainArea,
     painAreas,
+    backRef,
   } = useUserInfo(handlePageIndex);
 
   const renderContent = () => {
@@ -54,37 +56,12 @@ const Inquiry: React.FC = () => {
             handlePhoneNumber={handlePhoneNumber}
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}
+            backRef={backRef}
           />
         );
       case 3:
         return (
-          <>
-            <div className="relative w-full h-full flex flex-col justify-center items-center z-10 overflow-auto">
-              <p className="text-center text-[30px] font-semibold select-none">
-                먼저 통증 부위를 <br />
-                선택해 주세요.
-              </p>
-              <div className="py-4 px-8 flex flex-col items-center mt-4 gap-4 bg-[rgba(229,255,223,0.3)] overflow-y-auto max-h-[50rem] mb-4">
-                {painAreas.map((area, index) => (
-                  <button
-                    key={index}
-                    value={area}
-                    onClick={handlePainArea}
-                    className="text-lg font-semibold w-[15rem] h-[3rem] bg-white border py-2 rounded-lg hover:bg-primary hover:text-white"
-                  >
-                    {area}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="absolute bottom-[-8rem] left-[-4rem] w-[60%] min-w-[15rem] max-w-[30rem] h-auto">
-              <img
-                src="/gradient_circle.svg"
-                alt="logo"
-                className="w-full h-auto"
-              />
-            </div>
-          </>
+          <PainAreaPage painAreas={painAreas} handlePainArea={handlePainArea} />
         );
       case 4:
       default:
@@ -113,14 +90,15 @@ const Inquiry: React.FC = () => {
       painArea
     );
   }, [pageIndex]);
+
   return (
     <>
       <Head>
         <title>GENTLEPIE-INQUIRY</title>
       </Head>
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
-        <div className="w-full h-full flex flex-col items-between min-w-[240px] max-w-[1280px] bg-white relative">
-          <Header title={"문진 챗봇"} titleStyle={""} />
+        <div className="w-full h-full flex flex-col items-between min-w-[320px] min-h-[600px] bg-white relative">
+          <Header title={"행복한 H 문진 챗봇"} titleStyle={""} />
           <div className="absolute top-[-4rem] right-0 w-[50%] min-w-[16rem] max-w-[26rem] h-auto">
             <img
               src="/gradient_circle.svg"
