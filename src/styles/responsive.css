@@ -1,0 +1,33 @@
+.responsive_flex {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 360px) {
+  .responsive_flex {
+    flex-direction: column-reverse;
+  }
+}
+
+.responsive_width {
+  width: 12rem;
+}
+
+@media (max-width: 360px) {
+  .responsive_width {
+    width: 10rem;
+  }
+}
+
+.responsive_height {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-height: 720px) {
+  .responsive_height {
+    justify-content: start;
+  }
+}

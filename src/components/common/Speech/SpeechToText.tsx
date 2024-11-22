@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import useVisualize from "@/hooks/inquiry/useVisualize";
+import useVisualize from "@/hooks/useVisualize";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
 

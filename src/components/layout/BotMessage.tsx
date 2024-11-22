@@ -1,7 +1,6 @@
-import TypingEffectStream from "@/components/common/Typing/\bTypingEffectStream";
-import TypingEffectMarkdown from "@/components/common/Typing/TypingEffectMarkdown";
-import { getInquiryTypingSpeed } from "@/utils/getTypingSpeed";
 import React from "react";
+import { getInquiryTypingSpeed } from "@/utils/getTypingSpeed";
+import TypingEffectStream from "../common/Typing/TypingEffectStream";
 
 const BotMessage = ({
   message,

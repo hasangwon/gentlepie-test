@@ -22,24 +22,6 @@ const InquryInput = ({
     setInputValue("");
   };
 
-  // const handleBlur = () => {
-  //   if (inputRef.current) {
-  //     inputRef.current.blur();
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (inputRef && inputRef?.current) {
-  //     handleBlur();
-  //   }
-  // }, []);
-
   return (
     <div className="relative w-full px-4 py-2 text-base">
       <div className="relative w-full h-[5rem] bg-primary flex border border-primary rounded-[30px] mb-2 py-[14px]">

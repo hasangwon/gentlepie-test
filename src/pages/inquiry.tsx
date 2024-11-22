@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Head from "next/head";
-import Header from "@/components/layout/InquiryLayout/Header";
-import AgreementPage from "@/components/layout/InquiryLayout/AgreementPage";
-import InfomationPage from "@/components/layout/InquiryLayout/InfomationPage";
-import InquiryChatPage from "@/components/layout/InquiryLayout/InquiryChatPage";
+import Header from "@/components/layout/Header";
+import AgreementPage from "@/components/layout/AgreementPage";
+import InfomationPage from "@/components/layout/InfomationPage";
+import InquiryChatPage from "@/components/layout/InquiryChatPage";
 
-import useInquiry from "@/hooks/inquiry/useInquiry";
-import useInquiryPageControl from "@/hooks/inquiry/useInquiryPageControl";
-import useTTS from "@/hooks/inquiry/useTTS";
-import useUserInfo from "@/hooks/inquiry/useUserInfo";
-import PainAreaPage from "@/components/layout/InquiryLayout/PainAreaPage";
+import useInquiry from "@/hooks/useInquiry";
+import useInquiryPageControl from "@/hooks/useInquiryPageControl";
+import useTTS from "@/hooks/useTTS";
+import useUserInfo from "@/hooks/useUserInfo";
+import PainAreaPage from "@/components/layout/PainAreaPage";
 
 const Inquiry: React.FC = () => {
   const {

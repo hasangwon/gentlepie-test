@@ -1,0 +1,43 @@
+.inquiry_loader {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.inquiry_loader::before,
+.inquiry_loader::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 5px solid transparent;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  animation: spin 1.5s linear infinite;
+}
+
+.inquiry_loader::before {
+  width: 80px;
+  height: 80px;
+  border-top: 5px solid #20247e;
+  border-bottom: 5px solid #20247e;
+}
+
+.inquiry_loader::after {
+  width: 60px;
+  height: 60px;
+  border-left: 5px solid #7679aa;
+  border-right: 5px solid #7679aa;
+  animation-duration: 1s;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
