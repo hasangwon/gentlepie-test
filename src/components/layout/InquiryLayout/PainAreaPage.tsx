@@ -15,7 +15,7 @@ const PainAreaPage = ({
 
   return (
     <div
-      className={`relative w-full h-full flex flex-col items-center justify-center z-10 overflow-y-auto`}
+      className={`relative w-full h-full z-10 overflow-y-auto responsive_height`}
     >
       <div
         className={`text-center flex-col select-none whitespace-pre-wrap pt-4 min-h-[40rem]`}

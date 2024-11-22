@@ -1,13 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const Header = ({
-  title,
-  titleStyle,
-}: {
-  title: string;
-  titleStyle?: string;
-}) => {
+const Header = ({ title }: { title: string }) => {
   return (
     <header className="relative w-full flex justify-center p-4 bg-white border-b border-gentle-light z-20">
       <button

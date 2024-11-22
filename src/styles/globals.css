@@ -3,16 +3,150 @@
 @tailwind components;
 @tailwind utilities;
 
-
-html, body, #__next {
-  font-family: "Pretendard GOV", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+html,
+body,
+#__next {
+  font-family: "Pretendard GOV", -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    sans-serif;
   width: 100%;
   height: 100%;
 }
 
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 /* 그라데이션 텍스트 */
 .gradient-text {
-  background: linear-gradient(90deg, #AA00C6, #D06262, #000AFF);
+  background: linear-gradient(90deg, #aa00c6, #d06262, #000aff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -34,8 +168,8 @@ html, body, #__next {
 
 @media (max-width: 400px) {
   .custom-text {
-    font-size: 22px
-    }
+    font-size: 22px;
+  }
 }
 
 .line {
@@ -51,9 +185,23 @@ html, body, #__next {
   margin: 0 auto;
 }
 
-
 .animated-gradient {
-  background: linear-gradient(270deg, #D2D6FA, #A3BEF8, #799CF7, #7D88F5, #9579F7, #9678FA, #AC82F9, #CBA9FA, #E1B6E5, #FEB0E0, #FFA2E0, #FEA4CA, #FDAAD6);
+  background: linear-gradient(
+    270deg,
+    #d2d6fa,
+    #a3bef8,
+    #799cf7,
+    #7d88f5,
+    #9579f7,
+    #9678fa,
+    #ac82f9,
+    #cba9fa,
+    #e1b6e5,
+    #feb0e0,
+    #ffa2e0,
+    #fea4ca,
+    #fdaad6
+  );
   background-size: 200% 200%;
   animation: gradient-animation 20s ease infinite;
 }
@@ -84,7 +232,7 @@ html, body, #__next {
   border-top: 0.3em solid gainsboro;
   border-right: 0.3em solid gainsboro;
   border-bottom: 0.3em solid gainsboro;
-  border-left: 0.25em solid #4467FD;  /* 지정 안됨 */
+  border-left: 0.25em solid #4467fd; /* 지정 안됨 */
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
@@ -113,15 +261,15 @@ html, body, #__next {
   }
 }
 
-
 .inquiry_loader {
   position: relative;
   width: 100px;
   height: 100px;
 }
 
-.inquiry_loader::before, .inquiry_loader::after {
-  content: '';
+.inquiry_loader::before,
+.inquiry_loader::after {
+  content: "";
   position: absolute;
   border-radius: 50%;
   border: 5px solid transparent;
@@ -136,8 +284,8 @@ html, body, #__next {
 .inquiry_loader::before {
   width: 80px;
   height: 80px;
-  border-top: 5px solid #20247E;
-  border-bottom: 5px solid #20247E;
+  border-top: 5px solid #20247e;
+  border-bottom: 5px solid #20247e;
 }
 
 .inquiry_loader::after {
@@ -159,7 +307,7 @@ html, body, #__next {
 
 .responsive_flex {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
 }
 
 @media (max-width: 360px) {
@@ -178,53 +326,15 @@ html, body, #__next {
   }
 }
 
-/* CSS Reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+.responsive_height {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
-body {
-  line-height: 1;
-}
-
-ol, ul {
-  list-style: none;
-}
-
-blockquote, q {
-  quotes: none;
-}
-
-blockquote::before, blockquote::after,
-q::before, q::after {
-  content: '';
-  content: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+@media (max-height: 720px) {
+  .responsive_height {
+    justify-content: start;
+  }
 }

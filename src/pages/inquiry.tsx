@@ -97,8 +97,8 @@ const Inquiry: React.FC = () => {
         <title>GENTLEPIE-INQUIRY</title>
       </Head>
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
-        <div className="w-full h-full flex flex-col items-between min-w-[320px] min-h-[600px] bg-white relative">
-          <Header title={"행복한 H 문진 챗봇"} titleStyle={""} />
+        <div className="w-full h-full flex flex-col items-between min-w-[320px] min-h-[480px] bg-white relative">
+          <Header title={"행복한 H 문진 챗봇"} />
           <div className="absolute top-[-4rem] right-0 w-[50%] min-w-[16rem] max-w-[26rem] h-auto">
             <img
               src="/gradient_circle.svg"
