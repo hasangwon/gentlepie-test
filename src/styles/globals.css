@@ -3,21 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* 전체 화면 높이 */
+.linear-gradient-voice {
+  background: linear-gradient(to bottom right, #51E9A2, #006E76);
 }
 
-.layout-1 {
-  flex-shrink: 0; /* 높이를 줄이지 않음 */
-  height: 100px; /* 고정 높이 */
-  background-color: #f0f0f0;
+.linear-gradient-voice-in {
+  background: linear-gradient(to bottom right, #A100FF, #BDB4C6);
 }
 
-.layout-2 {
-  flex-grow: 1; /* 남은 공간 차지 */
-  min-height: 0; /* 키보드 올라올 때 줄어들도록 설정 */
-  background-color: #e0e0e0;
-  overflow-y: auto; /* 내용이 많으면 스크롤 가능 */
-}

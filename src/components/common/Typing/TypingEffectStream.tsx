@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import showdown from "showdown"; // Markdown 렌더링을 위한 showdown 라이브러리
 
 interface TypingEffectStreamProps {
   textStream: string;
@@ -13,6 +14,14 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({
 }) => {
   const [displayText, setDisplayText] = useState("");
   const [typedIndex, setTypedIndex] = useState(0);
+
+  const converter = new showdown.Converter({
+    tables: true,
+    openLinksInNewWindow: true,
+    simpleLineBreaks: true,
+    simplifiedAutoLink: true,
+  });
+
   useEffect(() => {
     let index = textStream.length;
     if (index % 10 === 0) {
@@ -34,7 +43,18 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({
     }
   }, [textStream]);
 
-  return <div>{displayText}</div>;
+  // Markdown을 HTML로 변환
+  const htmlContent = converter.makeHtml(displayText);
+
+  return (
+    // <div
+    //   className="markdown-table m-auto"
+    //   dangerouslySetInnerHTML={{
+    //     __html: htmlContent,
+    //   }}
+    // />
+    <div className="m-auto">{displayText}</div>
+  );
 };
 
 export default TypingEffectStream;

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import useVisualize from "@/hooks/useVisualize";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
+import VoiceImage from "../Svg/VoiceImage";
+import Image from "next/image";
+import RefreshButton from "../Svg/RefreshButton";
 
 const SpeechToText = ({
   inputValue,
@@ -17,9 +19,9 @@ const SpeechToText = ({
 }) => {
   const [recognition, setRecognition] = useState<any>(null);
   const [sttListening, setSttListening] = useRecoilState(sttState);
-
   const mediaStreamRef = useRef<any>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // 타이머를 관리할 ref
+  const [isFirstRecord, setIsFirstRecord] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   useVisualize(mediaStreamRef, sttListening, setSttListening);
 
   useEffect(() => {
@@ -59,13 +61,13 @@ const SpeechToText = ({
         console.error("Speech recognition error detected: " + event.error);
         if (event.error === "no-speech") {
           console.log("No speech detected, restarting recognition...");
-          if (event.error === "network") {
-            alert("인터넷 연결을 확인해주세요.");
-          }
           recognitionInstance.stop();
           setTimeout(() => {
             recognitionInstance.start();
           }, 500);
+        } else if (event.error === "network") {
+          alert("인터넷 연결을 확인해주세요.");
+          recognitionInstance.stop();
         }
       };
 
@@ -81,19 +83,16 @@ const SpeechToText = ({
     }
   }, [sttListening]);
 
-  // inputValue가 변경될 때마다 타이머를 초기화하는 useEffect
+  // 타이머 자동 전송 effect
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     if (inputValue && sttListening) {
-      // inputValue가 빈 값이 아닐 때만 3초 타이머 시작
       timeoutRef.current = setTimeout(() => {
         stopRecognition();
-        onEnd();
-      }, 3000);
+        // onEnd();
+      }, 3500);
     }
-
-    // cleanup: 컴포넌트가 언마운트되거나 inputValue가 변경되면 타이머 정리
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
@@ -102,6 +101,7 @@ const SpeechToText = ({
   const startRecognition = () => {
     setSttListening(true);
     setInputValue("");
+    setIsFirstRecord(false);
   };
 
   const stopRecognition = () => {
@@ -128,7 +128,6 @@ const SpeechToText = ({
         console.log("Media stream stopped.");
         mediaStreamRef.current = null;
       }
-      // 타이머가 설정되어 있으면 초기화
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
@@ -141,37 +140,65 @@ const SpeechToText = ({
   console.log("isListening: ", sttListening);
 
   return (
-    <div className={`flex items-center ${sttListening ? "w-full" : ""}`}>
-      <div
-        className={`${
-          sttListening ? "bottom-0 " : "bottom-[-50rem] opacity-0"
-        } max-w-[1280px] transition-all ease-in-out duration-500 bg-primary fixed w-full h-[24rem] left-1/2 transform -translate-x-1/2 rounded-t-[20px] flex flex-col justify-center items-center z-10`}
+    <div className={`flex flex-1 justify-center items-start w-full`}>
+      <button
+        className="absolute left-6 top-6"
+        onClick={() => {
+          setInputValue("");
+        }}
       >
+        <RefreshButton />
+      </button>
+      {sttListening ? (
         <button
           type="button"
-          className="border p-1 rounded-full absolute top-4 right-4 bg-white"
+          className="w-[68px] h-[68px] linear-gradient-voice-in rounded-full border-white border-2"
           onClick={stopRecognition}
           disabled={!sttListening}
         >
-          <Image src="/keyboard.png" alt="keyboard" width={21} height={21} />
+          <canvas id="visualizer" className="w-full h-full"></canvas>
         </button>
-        <div className="relative w-[6rem] h-[6rem] bg-white rounded-full flex justify-center items-center">
-          <div className="w-[9rem] absolute top-3 right-[-1.5rem]">
-            <canvas id="visualizer" className="w-full h-full"></canvas>
-          </div>
-        </div>
-        <div className="mt-4 text-2xl px-8 max-h-[14rem] overflow-y-auto">
-          <p className="text-white text-center">{inputValue}</p>
-        </div>
-      </div>
-      <button
-        type="button"
-        className="bg-white p-2 rounded-full ml-4"
-        onClick={startRecognition}
-        disabled={sttListening}
-      >
-        <Image src="/voice.png" alt="microphone" width={24} height={24} />
-      </button>
+      ) : (isFirstRecord && !sttListening) || inputValue === "" ? (
+        <button
+          type="button"
+          className="linear-gradient-voice rounded-full border-white border-2 p-3"
+          onClick={startRecognition}
+          disabled={sttListening}
+        >
+          <VoiceImage />
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="linear-gradient-voice rounded-full border-white border-2 w-[68px] h-[68px] flex justify-center items-center"
+          onClick={() => {
+            onEnd();
+            setIsFirstRecord(true);
+          }}
+          disabled={sttListening}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="36"
+            height="35"
+            viewBox="0 0 36 35"
+            fill="none"
+          >
+            <path
+              d="M17.7836 3L32.5666 17.7842L17.7836 32.5672"
+              stroke="white"
+              stroke-width="4.77"
+              stroke-linecap="round"
+            />
+            <path
+              d="M3.00052 17.7832H32.5666"
+              stroke="white"
+              stroke-width="4.77"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      )}
     </div>
   );
 };

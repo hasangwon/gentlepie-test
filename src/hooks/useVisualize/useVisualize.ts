@@ -44,15 +44,16 @@ const useVisualize = (mediaStreamRef: any, sttListening: boolean, setSttListenin
     if (!canvas) return;
     const canvasCtx = canvas.getContext("2d");
     const bufferLength = analyserRef.current.frequencyBinCount;
-    const dataArray = dataArrayRef.current; // 주파수 데이터 배열
+    const dataArray = dataArrayRef.current;
 
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const numLines = 7; // 막대 개수
-    const lineWidth = canvas.width / numLines - 30; // 막대 너비
+    const numLines = 5; // 막대 개수
+    const lineWidth = 20; // 막대 너비
+    const lineHeight = 40; // 막대 높이
     const centerY = canvas.height / 2; // 캔버스 중앙
-    const indices = [4, 2, 0, 1, 3, 5, 6]; // 가운데부터 확산되는 인덱스 순서
-    const barSpacing = 8; // 막대 사이 간격
+    const indices = [3, 1, 0, 2, 4]; // 가운데부터 확산되는 인덱스 순서
+    const barSpacing = 14; // 막대 사이 간격
 
     // 막대 전체 너비 계산 및 시작 위치 계산
     const totalBarWidth = numLines * lineWidth + (numLines - 1) * barSpacing;
@@ -69,21 +70,19 @@ const useVisualize = (mediaStreamRef: any, sttListening: boolean, setSttListenin
         averageValue *= 0.8;
       } else if (i === 1 || i === 3) {
         averageValue *= 1.1;
-      } else if (i === 0 || i === 4) {
-        averageValue *= 1.2;
       } else {
-        averageValue *= 1.3;
+        averageValue *= 1.2;
       }
 
       let barHeight = averageValue / 2;
       barHeight = Math.max(15, barHeight); // 최소값
-      barHeight = Math.min(70, barHeight); // 최대값
+      barHeight = Math.min(lineHeight, barHeight); // 최대값
 
       const x = startX + i * (lineWidth + barSpacing); // 막대의 X 위치 계산
       const y = centerY - barHeight; // 막대의 Y 위치 계산
 
       // 막대 그리기
-      canvasCtx.fillStyle = "black";
+      canvasCtx.fillStyle = "white"; // 막대 색상 변경
       canvasCtx.beginPath();
       canvasCtx.moveTo(x + 8, y); // 좌측 상단의 둥근 모서리 시작
       canvasCtx.lineTo(x + lineWidth - 8, y); // 상단 직선

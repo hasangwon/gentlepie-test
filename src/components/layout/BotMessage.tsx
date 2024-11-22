@@ -15,9 +15,9 @@ const BotMessage = ({
 }) => {
   return (
     <>
-      <div className="px-[1.5rem] md:px-[7rem] lg:px-[10rem] overflow-y-auto min-h-[30rem] py-16 text-[24px] font-semibold text-center flex justify-center items-center text-bublitt-text leading-10">
+      <div className="px-[1.5rem] md:px-[2rem] lg:px-[3rem] h-full py-8 text-[24px] font-semibold text-center flex flex-col justify-start items-center text-bublitt-text leading-10">
         <TypingEffectStream
-          textStream={message}
+          textStream={message.replace(/ /g, "\n")}
           typingSpeed={50}
           scrollToBottom={scrollToBottom}
         />

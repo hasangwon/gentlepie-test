@@ -15,7 +15,7 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
     "허리, 골반, 고관절 통증",
     "허벅지와 무릎 통증",
     "하퇴부와 발목, 발 통증",
-    "암 통증",
+    // "암 통증",
   ]
 
   const initUserInfo = () => {

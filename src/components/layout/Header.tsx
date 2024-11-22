@@ -3,15 +3,7 @@ import Image from "next/image";
 
 const Header = ({ title }: { title: string }) => {
   return (
-    <header className="relative w-full flex justify-center p-4 bg-white border-b border-gentle-light z-20">
-      <button
-        className="absolute left-4 top-4 text-white"
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        <Image src="/inquiry_refresh.svg" alt="logo" width={24} height={24} />
-      </button>
+    <header className="absolute top-0 w-full flex justify-center p-4 bg-white border-b border-gentle-light z-20">
       <div
         className="text-lg font-bold bg-clip-text text-transparent"
         style={{

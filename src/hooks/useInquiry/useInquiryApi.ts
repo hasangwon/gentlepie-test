@@ -48,6 +48,7 @@ const useInquiryApi = () => {
         if (done) break;
 
         const text = decoder.decode(value, { stream: true });
+
         const lines = (partialChunk + text).split("\n");
         partialChunk = lines.pop() || "";
 
@@ -76,7 +77,7 @@ const useInquiryApi = () => {
       }
     } catch (error) {
       console.error("Failed to stream message:", error);
-      throw error; // 호출자에게 에러 전달
+      throw error;
     }
   };
 

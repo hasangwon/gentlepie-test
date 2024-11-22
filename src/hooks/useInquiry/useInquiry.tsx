@@ -2,6 +2,7 @@ import { useState } from "react";
 import useInquiryApi from "./useInquiryApi";
 import { useRecoilState } from "recoil";
 import { painAreaState } from "@/store/painAreaState";
+import { formatPainArea } from "@/utils/formatText";
 
 const useInquiry = () => {
   const { sendMessage, sendMessageStream } = useInquiryApi();
@@ -44,8 +45,8 @@ const useInquiry = () => {
     try {
       await sendMessageStream(
         userMessage,
-        "" || threadId, // threadId와 painArea 둘 다 아직 정의 못받음
-        "두통" || painArea,
+        threadId,
+        formatPainArea(painArea),
         (string) => {
           setBotMessage((prev) => prev + string);
         },

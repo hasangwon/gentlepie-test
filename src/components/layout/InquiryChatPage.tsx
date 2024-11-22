@@ -25,27 +25,31 @@ const InquiryChatPage = ({
   handleSendMessageStream: (userMessage: string) => Promise<void>;
 }) => {
   return (
-    <div className="bg-transparent h-[calc(100%-3.75rem)] w-full flex flex-col items-center justify-center z-10">
-      <div className="h-full overflow-y-auto w-full">
-        {isLoading ? (
-          <InquiryLoader />
-        ) : (
-          <BotMessage
-            message={botMessage}
-            scrollToBottom={scrollToBottom}
-            audioRef={audioRef}
-            messagesEndRef={messagesEndRef}
+    <>
+      <div className="responsive_device_container bg-transparent w-full h-full z-10 pt-[4rem]">
+        <div className="responsive_device shrink-0 overflow-y-auto">
+          {isLoading ? (
+            <InquiryLoader />
+          ) : (
+            <BotMessage
+              message={botMessage}
+              scrollToBottom={scrollToBottom}
+              audioRef={audioRef}
+              messagesEndRef={messagesEndRef}
+            />
+          )}
+        </div>
+        <div className="responsive_device_input flex items-start grow min-h-0 overflow-y-auto relative text-base">
+          <InquryInput
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            handleSendMessage={handleSendMessage}
+            handleSendMessageStream={handleSendMessageStream}
+            isLoading={isLoading}
           />
-        )}
+        </div>
       </div>
-      <InquryInput
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        handleSendMessage={handleSendMessage}
-        handleSendMessageStream={handleSendMessageStream}
-        isLoading={isLoading}
-      />
-    </div>
+    </>
   );
 };
 
