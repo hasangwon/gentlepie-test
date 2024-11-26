@@ -16,7 +16,7 @@ const EndPage = ({
         <p className="mt-10 leading-7">{description}</p>
       </Content>
       <ButtonArea
-        onSubmit={() => handlePageIndex(1)}
+        onSubmit={() => window.location.reload()}
         nextButtonText={"처음으로"}
       />
     </ContentContainer>
