@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import ContentContainer, { Content } from "./ContentContainer";
+import ContentContainer, { Content } from "../../common/atom/ContentContainer";
 
 const PainAreaPage = ({
   painAreas,
@@ -15,7 +15,7 @@ const PainAreaPage = ({
 
   return (
     <div
-      className={`relative w-full h-full z-10 overflow-y-auto responsive_height`}
+      className={`relative w-full h-full z-10 overflow-y-auto mt-[3.75rem] responsive_height`}
     >
       <div
         className={`text-center flex-col select-none whitespace-pre-wrap pt-4 min-h-[40rem]`}

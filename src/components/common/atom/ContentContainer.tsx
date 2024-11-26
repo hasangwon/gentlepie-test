@@ -9,7 +9,7 @@ const ContentContainer = ({
 }) => {
   return (
     <div
-      className={`relative w-full h-full flex flex-col justify-center items-center z-10  ${className}`}
+      className={`relative w-full h-full flex flex-col justify-center items-center z-10  mt-[3.75rem] ${className}`}
     >
       {children}
     </div>

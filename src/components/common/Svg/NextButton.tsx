@@ -1,38 +1,111 @@
 import React from "react";
 
-const NextButton = () => {
-  return (
+const NextButton = ({ isActive }: { isActive: boolean }) => {
+  return isActive ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="52"
-      height="50"
-      viewBox="0 0 34 32"
+      width="64"
+      height="64"
+      viewBox="0 0 64 64"
       fill="none"
     >
-      <g opacity="0.4">
-        <rect
-          x="19.0847"
-          y="1.36093"
-          width="24.2273"
-          height="24.2273"
-          rx="12.1136"
-          transform="rotate(45 19.0847 1.36093)"
-          stroke="white"
-          strokeWidth="1.77273"
-        ></rect>
-        <path
-          d="M19.0847 13.7646L23.812 18.4923L19.0847 23.2196"
-          stroke="white"
-          strokeWidth="1.77273"
-          strokeLinecap="round"
-        ></path>
-        <path
-          d="M14.3575 18.4922H23.812"
-          stroke="white"
-          strokeWidth="1.77273"
-          strokeLinecap="round"
-        ></path>
-      </g>
+      <rect
+        x="31.8657"
+        y="1.25351"
+        width="43.2922"
+        height="43.2922"
+        rx="21.6461"
+        transform="rotate(45 31.8657 1.25351)"
+        fill="url(#paint0_linear_252_1839)"
+      />
+      <rect
+        x="31.8657"
+        y="1.25351"
+        width="43.2922"
+        height="43.2922"
+        rx="21.6461"
+        transform="rotate(45 31.8657 1.25351)"
+        stroke="white"
+        stroke-width="1.77273"
+      />
+      <path
+        d="M31.8657 23L40.7314 31.8664L31.8657 40.7321"
+        stroke="white"
+        stroke-width="1.77273"
+        stroke-linecap="round"
+      />
+      <path
+        d="M23 31.8657H40.7314"
+        stroke="white"
+        stroke-width="1.77273"
+        stroke-linecap="round"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_252_1839"
+          x1="41.8602"
+          y1="26.068"
+          x2="74.0335"
+          y2="23.5931"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#51E9A2" />
+          <stop offset="1" stop-color="#006E76" />
+        </linearGradient>
+      </defs>
+    </svg>
+  ) : (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="64"
+      height="64"
+      viewBox="0 0 64 64"
+      fill="none"
+    >
+      <rect
+        x="31.8657"
+        y="1.25351"
+        width="43.2922"
+        height="43.2922"
+        rx="21.6461"
+        transform="rotate(45 31.8657 1.25351)"
+        fill="url(#paint0_linear_252_1705)"
+      />
+      <rect
+        x="31.8657"
+        y="1.25351"
+        width="43.2922"
+        height="43.2922"
+        rx="21.6461"
+        transform="rotate(45 31.8657 1.25351)"
+        stroke="white"
+        stroke-width="1.77273"
+      />
+      <path
+        d="M31.8657 23L40.7314 31.8664L31.8657 40.7321"
+        stroke="white"
+        stroke-width="1.77273"
+        stroke-linecap="round"
+      />
+      <path
+        d="M23 31.8657H40.7314"
+        stroke="white"
+        stroke-width="1.77273"
+        stroke-linecap="round"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_252_1705"
+          x1="41.8602"
+          y1="26.068"
+          x2="74.0335"
+          y2="23.5931"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#CACACA" />
+          <stop offset="1" stop-color="#8F8F8F" />
+        </linearGradient>
+      </defs>
     </svg>
   );
 };

@@ -3,8 +3,6 @@ import useVisualize from "@/hooks/useVisualize";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
 import VoiceImage from "../Svg/VoiceImage";
-import Image from "next/image";
-import RefreshButton from "../Svg/RefreshButton";
 
 const SpeechToText = ({
   inputValue,
@@ -140,15 +138,7 @@ const SpeechToText = ({
   console.log("isListening: ", sttListening);
 
   return (
-    <div className={`flex flex-1 justify-center items-start w-full`}>
-      <button
-        className="absolute left-6 top-6"
-        onClick={() => {
-          setInputValue("");
-        }}
-      >
-        <RefreshButton />
-      </button>
+    <div className={`flex flex-1 justify-center items-start w-full mt-1`}>
       {sttListening ? (
         <button
           type="button"

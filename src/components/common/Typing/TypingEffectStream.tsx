@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import showdown from "showdown"; // Markdown 렌더링을 위한 showdown 라이브러리
+import showdown from "showdown";
 
 interface TypingEffectStreamProps {
   textStream: string;
@@ -47,13 +47,13 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({
   const htmlContent = converter.makeHtml(displayText);
 
   return (
-    // <div
-    //   className="markdown-table m-auto"
-    //   dangerouslySetInnerHTML={{
-    //     __html: htmlContent,
-    //   }}
-    // />
-    <div className="m-auto">{displayText}</div>
+    <div
+      className="markdown-table m-auto"
+      dangerouslySetInnerHTML={{
+        __html: htmlContent,
+      }}
+    />
+    // <div className="m-auto">{displayText}</div>
   );
 };
 

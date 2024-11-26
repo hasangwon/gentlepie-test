@@ -24,7 +24,11 @@ const useInquiry = () => {
     setBotMessage("");
 
     try {
-      const response = await sendMessage(userMessage, threadId);
+      const response = await sendMessage(
+        userMessage,
+        threadId,
+        formatPainArea(painArea)
+      );
       setBotMessage(response?.text);
       setThreadId(response?.threadId || "");
     } catch (error) {
@@ -69,6 +73,9 @@ const useInquiry = () => {
     isLoading,
     handleSendMessage,
     handleSendMessageStream,
+    threadId,
+    setThreadId,
+    setUserMessages,
   };
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
-import ButtonArea from "./ButtonArea";
-import ContentContainer, { Content } from "./ContentContainer";
+import ButtonArea from "../../common/atom/ButtonArea";
+import ContentContainer, { Content } from "../../common/atom/ContentContainer";
+import AgreeRuleModal from "../Modal/AgreeRuleModal";
 
 const AgreementPage = ({
   handlePageIndex,
@@ -27,28 +28,7 @@ const AgreementPage = ({
     <ContentContainer>
       <Content title={currentPage === "agreement" ? openingText : disareeText}>
         {isOpenModal && (
-          <>
-            <div
-              className="fixed inset-0 bg-black bg-opacity-50 z-10"
-              onClick={() => setIsOpenModal(false)}
-            />
-            <div className="w-[80%] p-4 flex flex-col justify-between bg-white rounded-xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-              <button
-                className="absolute top-4 right-4"
-                onClick={() => setIsOpenModal(false)}
-              >
-                ✕
-              </button>
-              <div className="">
-                <h5 className="text-left text-xl font-semibold">
-                  개인정보취급방침
-                </h5>
-                <p className="mt-4 whitespace-pre-wrap h-[20rem] overflow-y-auto border p-2 rounded-xl text-sm font-normal text-left">
-                  {info}
-                </p>
-              </div>
-            </div>
-          </>
+          <AgreeRuleModal handleModal={setIsOpenModal} info={info} />
         )}
         {currentPage === "agreement" && (
           <button

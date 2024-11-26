@@ -4,10 +4,23 @@
 @tailwind utilities;
 
 .linear-gradient-voice {
-  background: linear-gradient(to bottom right, #51E9A2, #006E76);
+  background: linear-gradient(to bottom right, #51e9a2, #006e76);
 }
 
 .linear-gradient-voice-in {
-  background: linear-gradient(to bottom right, #A100FF, #BDB4C6);
+  background: linear-gradient(to bottom right, #a100ff, #bdb4c6);
 }
 
+.dynamic-toast {
+  background: rgba(95, 103, 227, 0.85);
+  color: "#fff";
+  border-radius: "20px";
+  text-align: "center";
+  top: "3.5rem";
+  min-height: "42px";
+  display: "flex";
+  align-items: "center";
+  justify-content: "center";
+  font-size: "15px";
+  padding: "4px 12px";
+}

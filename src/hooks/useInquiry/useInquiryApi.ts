@@ -1,9 +1,9 @@
 import axios from 'axios';
-const TEST_URL = "https://doctorchat-internal.gentlepie.com/process"; // 'http://' 추가
+const TEST_URL = "https://doctorchat-internal.gentlepie.com/chat";
 const useInquiryApi = () => {
-  const sendMessage = async (message: string, threadId: string) => {
+  const sendMessage = async (message: string, threadId: string, position: string) => {
     try {
-      const response = await axios.post(`${TEST_URL}`, { input: message, threadId: threadId });
+      const response = await axios.post(`${TEST_URL}`, { input: message, threadId: threadId, position: position });
       return response.data;
     } catch (error) {
       console.error('Failed to send message:', error);

@@ -39,6 +39,13 @@ const Toggle = ({
           on ? "translate-x-[32px]" : "translate-x-[-4px]"
         }`}
       ></div>
+      <p className="w-[13rem] text-sm absolute left-[-6rem] top-[3rem] text-white border p-1">
+        테스트 중입니다
+        <br />
+        음성 모드 시, 스트리밍 답변
+        <br />
+        텍스트 모드 시, 일반 답변 API 사용
+      </p>
     </div>
   );
 };

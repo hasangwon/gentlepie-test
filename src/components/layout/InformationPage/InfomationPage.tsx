@@ -1,6 +1,6 @@
 import React from "react";
-import ContentContainer, { Content } from "./ContentContainer";
-import ButtonArea from "./ButtonArea";
+import ContentContainer, { Content } from "../../common/atom/ContentContainer";
+import ButtonArea from "../../common/atom/ButtonArea";
 
 const InfomationPage = ({
   userName,
@@ -49,7 +49,8 @@ const InfomationPage = ({
               value={userName}
               onChange={handleName}
               placeholder="입력"
-              className="border responsive_width border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
+              autoComplete="off"
+              className="text-base border responsive_width border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
             />
             <div className="responsive_width relative flex items-center gap-2">
               <input
@@ -58,7 +59,8 @@ const InfomationPage = ({
                 value={userBirth.slice(0, 6)}
                 onChange={handleBirthFront}
                 placeholder="앞 6자리"
-                className="w-[45%] flex-1 border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
+                autoComplete="off"
+                className="text-base w-[45%] flex-1 border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
               />
               <input
                 ref={backRef}
@@ -67,7 +69,8 @@ const InfomationPage = ({
                 value={userBirth.slice(6, 13)}
                 onChange={handleBirthBack}
                 placeholder="뒤 7자리"
-                className="w-[45%] flex-1 border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
+                autoComplete="off"
+                className="text-base w-[45%] flex-1 border border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
               />
             </div>
             <input
@@ -76,7 +79,8 @@ const InfomationPage = ({
               value={userPhoneNumber}
               onChange={handlePhoneNumber}
               placeholder="휴대 전화번호"
-              className="border responsive_width border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
+              autoComplete="off"
+              className="text-base border responsive_width border-gentle-light rounded-md px-4 py-2 outline-none placeholder:text-left"
             />
           </div>
         </form>

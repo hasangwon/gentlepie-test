@@ -22,6 +22,7 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
     setUserName("");
     setUserBirth("");
     setUserPhoneNumber("");
+    setPainArea("");
   };
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
