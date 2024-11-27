@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const [response] = await client.synthesizeSpeech({
       input: { text },
       voice: { languageCode: "ko-KR", name: "ko-KR-Wavenet-C" }, // 사용할 언어 및 음성
-      audioConfig: { audioEncoding: "MP3" }, // MP3 포맷
+      audioConfig: { audioEncoding: "MP3", speakingRate: 1.2 }, // MP3 포맷
     });
 
     if (!response.audioContent) {

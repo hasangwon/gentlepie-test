@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -23,6 +23,13 @@ const Index: React.FC = () => {
   const { inputValue, setInputValue, userMessages, setUserMessages, botMessage, isLoading, handleSendMessage, handleSendMessageStream, threadId, setThreadId } = useInquiry(testState ? fetchTTSGoogle : fetchTTS);
   const { pageIndex, messagesEndRef, scrollToBottom, handlePageIndex } = useInquiryPageControl();
   const { userName, userBirth, userPhoneNumber, painArea, handleName, handleBirthFront, handleBirthBack, handlePhoneNumber, handleSubmit, handleCancel, handlePainArea, painAreas, backRef, initUserInfo } = useUserInfo(handlePageIndex);
+
+  useEffect(() => {
+    if (pageIndex === 4) {
+      console.log("페이지 4 진입", botMessage);
+      testState ? fetchTTSGoogle(botMessage) : fetchTTS(botMessage);
+    }
+  }, [pageIndex]);
 
   const renderContent = () => {
     switch (pageIndex) {
