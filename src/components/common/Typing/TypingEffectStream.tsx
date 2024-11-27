@@ -5,13 +5,10 @@ interface TypingEffectStreamProps {
   textStream: string;
   typingSpeed?: number;
   scrollToBottom?: () => void | null;
+  className?: string;
 }
 
-const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({
-  textStream,
-  typingSpeed = 30,
-  scrollToBottom = null,
-}) => {
+const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({ textStream, typingSpeed = 30, scrollToBottom = null, className }) => {
   const [displayText, setDisplayText] = useState("");
   const [typedIndex, setTypedIndex] = useState(0);
 
@@ -48,7 +45,7 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({
 
   return (
     <div
-      className="markdown-table m-auto"
+      className={`${className}`}
       dangerouslySetInnerHTML={{
         __html: htmlContent,
       }}

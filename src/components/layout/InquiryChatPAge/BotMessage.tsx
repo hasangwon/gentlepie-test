@@ -2,32 +2,22 @@ import React from "react";
 import { getInquiryTypingSpeed } from "@/utils/getTypingSpeed";
 import TypingEffectStream from "../../common/Typing/TypingEffectStream";
 import TypingEffectMarkdown from "../../common/Typing/TypingEffectMarkdown";
+import Image from "next/image";
 
-const BotMessage = ({
-  message,
-  scrollToBottom,
-  audioRef,
-  messagesEndRef,
-}: {
-  message: string;
-  scrollToBottom: () => void;
-  audioRef: React.RefObject<HTMLAudioElement>;
-  messagesEndRef: React.RefObject<HTMLDivElement>;
-}) => {
+const BotMessage = ({ message, scrollToBottom, audioRef, messagesEndRef }: { message: string; scrollToBottom: () => void; audioRef: React.RefObject<HTMLAudioElement>; messagesEndRef: React.RefObject<HTMLDivElement> }) => {
+  const doctorName = "김정훈 대표원장";
   return (
-    <>
-      <div className="px-[2rem] md:px-[2.5rem] lg:px-[3rem] h-full py-8 text-[24px] font-semibold text-center flex flex-col justify-start items-center text-bublitt-text leading-10">
-        <TypingEffectStream
-          textStream={message
-            .replace(/(?<!\d)([.?])/g, "$1\n")
-            .replace(/(?<!^)-/g, "\n-")}
-          typingSpeed={getInquiryTypingSpeed(message.length)}
-          scrollToBottom={scrollToBottom}
-        />
+    <div className="flex w-full h-full">
+      <div className="m-auto px-[2rem] md:px-[2.5rem] lg:px-[3rem] pb-8 text-[24px] font-semibold text-center flex flex-col justify-start items-center text-bublitt-text leading-10">
+        <div className="w-full flex flex-col justify-center items-center pt-6 md:pb-6">
+          <Image src="/bot profile.png" width={57} height={57} alt="doctor" />
+          <h3 className="text-xs text-gentle-dark">{doctorName}</h3>
+        </div>
+        <TypingEffectStream className="md:mb-[4rem]" textStream={message.replace(/(?<!\d)([.?])/g, "$1\n").replace(/(?<!^)-/g, "\n-")} typingSpeed={getInquiryTypingSpeed(message.length)} scrollToBottom={scrollToBottom} />
         <audio ref={audioRef} style={{ display: "none" }} />
       </div>
       <div ref={messagesEndRef} />
-    </>
+    </div>
   );
 };
 
