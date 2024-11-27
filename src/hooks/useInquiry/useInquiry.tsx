@@ -9,7 +9,7 @@ const useInquiry = (fetchTTSGoogle: (text: string) => Promise<void>) => {
   const [painArea, setPainArea] = useRecoilState(painAreaState);
   const [inputValue, setInputValue] = useState("");
   const [userMessages, setUserMessages] = useState<any[]>([]);
-  const [botMessage, setBotMessage] = useState("문진을 시작하겠습니다.\n저에게 말씀하신 모든 내용이 ‘원장님’께 전달됩니다.\n차근차근 말씀해 주세요.\n\n어느 부위에 통증이 있으신가요?");
+  const [botMessage, setBotMessage] = useState("문진을 시작하겠습니다.\n저에게 말씀하신 모든 내용이 진료에 중요하게 활용됩니다.\n통증 위치부터 구체적으로 말씀해주세요.");
   const [isLoading, setIsLoading] = useState(false);
   const [threadId, setThreadId] = useState("");
 
