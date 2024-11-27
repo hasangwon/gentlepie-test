@@ -5,9 +5,9 @@ const Header = ({ title, handleEndModal, pageIndex }: { title: string; handleEnd
   return (
     <header className="absolute top-0 w-full flex justify-center p-4 bg-white border-b border-gentle-light z-20">
       <div
-        className="text-lg font-bold bg-clip-text text-transparent"
+        className="text-[21px] tracking-[-0.5%] letter font-bold bg-clip-text text-transparent"
         style={{
-          backgroundImage: "linear-gradient(80.64deg, #000AFF -7.86%, #838BFF 43.81%, #00BD65 106.97%)",
+          backgroundImage: "linear-gradient(120deg, #04097F 0%, #838BFF 45%, #006E76 100%)",
         }}
       >
         {title}

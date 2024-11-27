@@ -14,39 +14,15 @@ import InfomationPage from "@/components/layout/InformationPage/InfomationPage";
 import PainAreaPage from "@/components/layout/PainAreaPage/PainAreaPage";
 import InquiryChatPage from "@/components/layout/InquiryChatPAge/InquiryChatPage";
 import EndPage from "@/components/layout/EndPage/EndPage";
+import Toggle from "@/components/common/atom/Toggle";
 
 const Index: React.FC = () => {
-  const {
-    inputValue,
-    setInputValue,
-    userMessages,
-    setUserMessages,
-    botMessage,
-    isLoading,
-    handleSendMessage,
-    handleSendMessageStream,
-    threadId,
-    setThreadId,
-  } = useInquiry();
-  const { pageIndex, messagesEndRef, scrollToBottom, handlePageIndex } =
-    useInquiryPageControl();
-  const { fetchTTS, audioRef } = useTTS();
-  const {
-    userName,
-    userBirth,
-    userPhoneNumber,
-    painArea,
-    handleName,
-    handleBirthFront,
-    handleBirthBack,
-    handlePhoneNumber,
-    handleSubmit,
-    handleCancel,
-    handlePainArea,
-    painAreas,
-    backRef,
-    initUserInfo,
-  } = useUserInfo(handlePageIndex);
+  const [testState, setTestState] = React.useState(true);
+
+  const { fetchTTS, fetchTTSGoogle, audioRef } = useTTS();
+  const { inputValue, setInputValue, userMessages, setUserMessages, botMessage, isLoading, handleSendMessage, handleSendMessageStream, threadId, setThreadId } = useInquiry(testState ? fetchTTSGoogle : fetchTTS);
+  const { pageIndex, messagesEndRef, scrollToBottom, handlePageIndex } = useInquiryPageControl();
+  const { userName, userBirth, userPhoneNumber, painArea, handleName, handleBirthFront, handleBirthBack, handlePhoneNumber, handleSubmit, handleCancel, handlePainArea, painAreas, backRef, initUserInfo } = useUserInfo(handlePageIndex);
 
   const renderContent = () => {
     switch (pageIndex) {
@@ -68,9 +44,7 @@ const Index: React.FC = () => {
           />
         );
       case 3:
-        return (
-          <PainAreaPage painAreas={painAreas} handlePainArea={handlePainArea} />
-        );
+        return <PainAreaPage painAreas={painAreas} handlePainArea={handlePainArea} />;
       case 4:
       default:
         return (
@@ -94,14 +68,7 @@ const Index: React.FC = () => {
   };
 
   React.useEffect(() => {
-    console.log(
-      "현재 선택된 내용 : ",
-      `{userName} : ${userName}`,
-      `{userBirth} : ${userBirth}`,
-      `{userPhoneNumber} : ${userPhoneNumber}`,
-      `{painArea} : ${painArea}`,
-      `{threadId} : ${threadId}`
-    );
+    console.log("현재 선택된 내용 : ", `{userName} : ${userName}`, `{userBirth} : ${userBirth}`, `{userPhoneNumber} : ${userPhoneNumber}`, `{painArea} : ${painArea}`, `{threadId} : ${threadId}`);
   }, [pageIndex]);
 
   const [isEndModalOpen, setIsEndModalOpen] = React.useState(false);
@@ -111,14 +78,7 @@ const Index: React.FC = () => {
   };
 
   const onEndInquiry = () => {
-    console.log(
-      "문진 종료 : ",
-      `{userName} : ${userName}`,
-      `{userBirth} : ${userBirth}`,
-      `{userPhoneNumber} : ${userPhoneNumber}`,
-      `{painArea} : ${painArea}`,
-      `{threadId} : ${threadId}`
-    );
+    console.log("문진 종료 : ", `{userName} : ${userName}`, `{userBirth} : ${userBirth}`, `{userPhoneNumber} : ${userPhoneNumber}`, `{painArea} : ${painArea}`, `{threadId} : ${threadId}`);
     initUserInfo();
     setThreadId("");
     setIsEndModalOpen(false);
@@ -141,17 +101,9 @@ const Index: React.FC = () => {
       /> */}
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
         <div className="w-full h-full flex flex-col items-between min-w-[320px] min-h-[480px] bg-white relative">
-          {isEndModalOpen && pageIndex > 2 && (
-            <InquiryEndModal
-              handleModal={handleEndModal}
-              onNextClick={onEndInquiry}
-            />
-          )}
-          <Header
-            title={"행복한 H 문진 챗봇"}
-            handleEndModal={handleEndModal}
-            pageIndex={pageIndex}
-          />
+          <Toggle className="bg-black z-40" on={testState} onToggle={() => setTestState(!testState)} leftContent={"오픈"} rightContent={"구글"} />
+          {isEndModalOpen && pageIndex > 2 && <InquiryEndModal handleModal={handleEndModal} onNextClick={onEndInquiry} />}
+          <Header title={"행복한 H 문진 챗봇"} handleEndModal={handleEndModal} pageIndex={pageIndex} />
           <BackgroundImage />
           {renderContent()}
         </div>

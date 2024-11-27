@@ -28,38 +28,31 @@ const InquryInput = ({
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    isSTTselected
-      ? handleSendMessageStream(inputValue)
-      : handleSendMessage(inputValue);
+    isSTTselected ? handleSendMessageStream(inputValue) : handleSendMessage(inputValue);
     setInputValue("");
   };
 
   const showToast = (isSTTselected: boolean) => {
-    toast(
-      isSTTselected
-        ? "음성 입력 모드로 전환되었습니다."
-        : "직접 입력 모드로 전환되었습니다.",
-      {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        icon: false,
-        style: {
-          background: "rgba(95, 103, 227, 0.85)",
-          color: "#fff",
-          borderRadius: "20px",
-          textAlign: "center",
-          top: "3.5rem",
-          minHeight: "42px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "15px",
-          padding: "4px 12px",
-        },
-      }
-    );
+    toast(isSTTselected ? "음성 입력 모드로 전환되었습니다." : "직접 입력 모드로 전환되었습니다.", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      icon: false,
+      style: {
+        background: "rgba(95, 103, 227, 0.85)",
+        color: "#fff",
+        borderRadius: "20px",
+        textAlign: "center",
+        top: "3.5rem",
+        minHeight: "42px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "15px",
+        padding: "4px 12px",
+      },
+    });
   };
 
   return (
@@ -75,9 +68,7 @@ const InquryInput = ({
             <RefreshButton />
           </button>
         )}
-        <div className="absolute top-[26px] right-[9rem] text-[#ACACAC] text-base select-none">
-          입력방식 변경
-        </div>
+        <div className="absolute top-[26px] right-[9rem] text-[#ACACAC] text-base select-none">입력방식 변경</div>
         <Toggle
           on={isSTTselected}
           onToggle={() => {
@@ -111,9 +102,7 @@ const InquryInput = ({
             inputValue={inputValue}
             setInputValue={setInputValue}
             onEnd={() => {
-              isSTTselected
-                ? handleSendMessageStream(inputValue)
-                : handleSendMessage(inputValue);
+              isSTTselected ? handleSendMessageStream(inputValue) : handleSendMessage(inputValue);
               setInputValue("");
             }}
           />
@@ -131,18 +120,14 @@ const InquryInput = ({
             onKeyDown={(event) => {
               if (event.nativeEvent.isComposing) return;
               if (isLoading) return;
-              // if (event.key === "Enter" && !event.shiftKey) {
-              //   event.preventDefault();
-              //   handleSubmit(event);
-              // }
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                handleSubmit(event);
+              }
             }}
           />
           <div className="flex mr-4 items-start">
-            <button
-              onClick={handleSubmit}
-              disabled={isLoading}
-              className="flex justify-center items-center mb-0"
-            >
+            <button onClick={handleSubmit} disabled={isLoading} className="flex justify-center items-center mb-0">
               <NextButton isActive={inputValue !== ""} />
             </button>
           </div>

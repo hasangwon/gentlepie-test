@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 const TEST_URL = "https://doctorchat-internal.gentlepie.com/chat";
 const useInquiryApi = () => {
   const sendMessage = async (message: string, threadId: string, position: string) => {
@@ -6,7 +6,7 @@ const useInquiryApi = () => {
       const response = await axios.post(`${TEST_URL}`, { input: message, threadId: threadId, position: position });
       return response.data;
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error("Failed to send message:", error);
       throw error;
     }
   };
@@ -16,7 +16,8 @@ const useInquiryApi = () => {
     threadId: string,
     position: string,
     onMessage: (data: string) => void,
-    onComplete: (threadId?: string) => void
+    onComplete: (threadId?: string) => void,
+    onEnd: (finalText: string) => void // 최종 텍스트 전달
   ) => {
     const endpoint = "https://doctorchat-internal.gentlepie.com/stream";
     try {
@@ -27,7 +28,6 @@ const useInquiryApi = () => {
         },
         body: JSON.stringify({ input: message, position: position, threadId: threadId }),
       });
-
 
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -42,6 +42,7 @@ const useInquiryApi = () => {
       let partialChunk = "";
       let savedThreadId: string | undefined;
       let firstThreadSaved = false;
+      let finalText = ""; // 누적된 최종 텍스트 저장
 
       while (true) {
         const { value, done } = await reader.read();
@@ -66,6 +67,7 @@ const useInquiryApi = () => {
                 firstThreadSaved = true;
               } else {
                 onMessage(data);
+                finalText += data; // 메시지를 누적
               }
             } catch (e) {
               console.error("Error in onMessage callback:", e);
@@ -75,6 +77,9 @@ const useInquiryApi = () => {
 
         onComplete(savedThreadId);
       }
+
+      // 스트리밍이 끝난 후 최종 텍스트를 onEnd로 전달
+      onEnd(finalText.trim());
     } catch (error) {
       console.error("Failed to stream message:", error);
       throw error;
@@ -82,5 +87,5 @@ const useInquiryApi = () => {
   };
 
   return { sendMessage, sendMessageStream };
-}
+};
 export default useInquiryApi;
