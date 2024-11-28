@@ -1,9 +1,9 @@
 import axios from "axios";
-const TEST_URL = "https://doctorchat-internal.gentlepie.com/chat";
+
 const useInquiryApi = () => {
   const sendMessage = async (message: string, threadId: string, position: string) => {
     try {
-      const response = await axios.post(`${TEST_URL}`, { input: message, threadId: threadId, position: position });
+      const response = await axios.post("gentle-api/chat", { input: message, threadId: threadId, position: position });
       return response.data;
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -11,17 +11,9 @@ const useInquiryApi = () => {
     }
   };
 
-  const sendMessageStream = async (
-    message: string,
-    threadId: string,
-    position: string,
-    onMessage: (data: string) => void,
-    onComplete: (threadId?: string) => void,
-    onEnd: (finalText: string) => void // 최종 텍스트 전달
-  ) => {
-    const endpoint = "https://doctorchat-internal.gentlepie.com/stream";
+  const sendMessageStream = async (message: string, threadId: string, position: string, onMessage: (data: string) => void, onComplete: (threadId?: string) => void, onEnd: (finalText: string) => void) => {
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch("/gentle-api/stream", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,16 +22,16 @@ const BotMessage = ({ message, scrollToBottom, audioRef, messagesEndRef }: { mes
   }, [sttListening, audioRef]);
 
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full overflow-y-auto">
       <div className="m-auto px-[2rem] md:px-[2.5rem] lg:px-[3rem] pb-8 text-[24px] font-semibold text-center flex flex-col justify-start items-center text-bublitt-text leading-10">
-        <div className="w-full flex flex-col justify-center items-center pt-6 md:pb-6">
+        <div className="w-full flex flex-col justify-center items-center pt-6 pb-6">
           <Image src="/bot profile.png" width={57} height={57} alt="doctor" />
-          <h3 className="text-xs text-gentle-dark">{doctorName}</h3>
+          <h3 className="text-xs text-gentle-dark mt-1">{doctorName}</h3>
         </div>
-        <TypingEffectStream className="md:mb-[4rem]" textStream={message.replace(/(?<!\d)([.?])/g, "$1\n").replace(/(?<!^)-/g, "\n-")} typingSpeed={getInquiryTypingSpeed(message.length)} scrollToBottom={scrollToBottom} />
+        <TypingEffectStream className="mb-[1rem] md:mb-[4rem]" textStream={message.replace(/(?<!\d)([.?])/g, "$1\n").replace(/(?<!^)-/g, "\n-")} typingSpeed={getInquiryTypingSpeed(message.length)} scrollToBottom={scrollToBottom} />
         <audio ref={audioRef} style={{ display: "none" }} />
+        <div ref={messagesEndRef} />
       </div>
-      <div ref={messagesEndRef} />
     </div>
   );
 };

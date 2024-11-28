@@ -3,30 +3,19 @@ import useVisualize from "@/hooks/useVisualize";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
 import VoiceImage from "../Svg/VoiceImage";
+import RefreshButton from "../Svg/RefreshButton";
 
-const SpeechToText = ({
-  inputValue,
-  setInputValue,
-  onResult,
-  onEnd,
-}: {
-  inputValue: string;
-  setInputValue: (value: string) => void;
-  onResult: (text: string) => void;
-  onEnd?: any;
-}) => {
+const SpeechToText = ({ inputValue, setInputValue, onResult, onEnd }: { inputValue: string; setInputValue: (value: string) => void; onResult: (text: string) => void; onEnd?: any }) => {
   const [recognition, setRecognition] = useState<any>(null);
   const [sttListening, setSttListening] = useRecoilState(sttState);
   const mediaStreamRef = useRef<any>(null);
   const [isFirstRecord, setIsFirstRecord] = useState(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   useVisualize(mediaStreamRef, sttListening, setSttListening);
-
   useEffect(() => {
     if (!sttListening) return;
 
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognitionInstance = new SpeechRecognition();
       recognitionInstance.lang = "ko-KR";
@@ -36,6 +25,7 @@ const SpeechToText = ({
       recognitionInstance.onresult = (event: any) => {
         let interimTranscript = "";
         let finalTranscript = "";
+        // if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
         for (let i = 0; i < event.results.length; i++) {
           const transcriptSegment = event.results[i][0].transcript;
@@ -46,11 +36,11 @@ const SpeechToText = ({
           }
         }
 
-        if (onResult) {
+        if (onResult && sttListeningRef.current) {
           onResult(interimTranscript);
         }
 
-        if (finalTranscript) {
+        if (finalTranscript && sttListeningRef.current) {
           onResult(finalTranscript);
         }
       };
@@ -102,59 +92,66 @@ const SpeechToText = ({
     setIsFirstRecord(false);
   };
 
-  const stopRecognition = () => {
+  const stopRecognition = async (): Promise<void> => {
     setSttListening(false);
-
-    if (recognition) {
-      recognition.stop();
-      setRecognition(null);
-    }
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    if (mediaStreamRef.current) {
-      const audioTracks = mediaStreamRef.current
-        .getTracks()
-        .filter(
-          (track: any) => track.kind === "audio" && track.readyState === "live"
-        );
-      if (audioTracks.length > 0) {
-        audioTracks.forEach((track: any) => track.stop());
-        console.log("Media stream stopped.");
-        mediaStreamRef.current = null;
+    return new Promise((resolve) => {
+      if (recognition) {
+        recognition.stop();
+        setRecognition(null);
       }
+
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
-    } else {
-      setSttListening(false);
-    }
+
+      if (mediaStreamRef.current) {
+        const audioTracks = mediaStreamRef.current.getTracks().filter((track: any) => track.kind === "audio" && track.readyState === "live");
+        if (audioTracks.length > 0) {
+          audioTracks.forEach((track: any) => track.stop());
+          console.log("Media stream stopped.");
+          mediaStreamRef.current = null;
+        }
+      }
+      resolve();
+    });
   };
 
-  console.log("isListening: ", sttListening);
+  const sttListeningRef = useRef(sttListening);
+  useEffect(() => {
+    sttListeningRef.current = sttListening;
+  }, [sttListening]);
 
   return (
     <div className={`flex flex-1 justify-center items-start w-full mt-1`}>
+      {inputValue && !sttListening && (
+        <button
+          className="flex items-center gap-3 absolute left-6 top-[26px] tracking-tight"
+          onClick={() => {
+            startRecognition();
+            // setInputValue("");
+          }}
+        >
+          <RefreshButton />
+          <div className="text-[#ACACAC] text-base select-none">답변 다시하기</div>
+        </button>
+      )}
       {sttListening ? (
         <button
           type="button"
           className="w-[68px] h-[68px] linear-gradient-voice-in rounded-full border-white border-2"
-          onClick={stopRecognition}
+          onClick={() => {
+            setIsFirstRecord(true);
+            stopRecognition().then(() => {
+              onEnd();
+            });
+          }}
           disabled={!sttListening}
         >
           <canvas id="visualizer" className="w-full h-full"></canvas>
         </button>
       ) : (isFirstRecord && !sttListening) || inputValue === "" ? (
-        <button
-          type="button"
-          className="linear-gradient-voice rounded-full border-white border-2 p-3"
-          onClick={startRecognition}
-          disabled={sttListening}
-        >
+        <button type="button" className="linear-gradient-voice rounded-full border-white border-2 p-3" onClick={startRecognition} disabled={sttListening}>
           <VoiceImage />
         </button>
       ) : (
@@ -167,25 +164,9 @@ const SpeechToText = ({
           }}
           disabled={sttListening}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="36"
-            height="35"
-            viewBox="0 0 36 35"
-            fill="none"
-          >
-            <path
-              d="M17.7836 3L32.5666 17.7842L17.7836 32.5672"
-              stroke="white"
-              stroke-width="4.77"
-              stroke-linecap="round"
-            />
-            <path
-              d="M3.00052 17.7832H32.5666"
-              stroke="white"
-              stroke-width="4.77"
-              stroke-linecap="round"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="35" viewBox="0 0 36 35" fill="none">
+            <path d="M17.7836 3L32.5666 17.7842L17.7836 32.5672" stroke="white" strokeWidth="4.77" strokeLinecap="round" />
+            <path d="M3.00052 17.7832H32.5666" stroke="white" strokeWidth="4.77" strokeLinecap="round" />
           </svg>
         </button>
       )}

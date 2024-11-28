@@ -9,26 +9,14 @@ import RefreshButton from "@/components/common/Svg/RefreshButton";
 import Toggle from "@/components/common/atom/Toggle";
 import MiniVoiceImage from "@/components/common/Svg/MiniVoiceImage";
 
-const InquryInput = ({
-  inputValue,
-  setInputValue,
-  handleSendMessage,
-  handleSendMessageStream,
-  isLoading,
-}: {
-  inputValue: string;
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSendMessage: (userMessage: string) => void;
-  handleSendMessageStream: (userMessage: string) => void;
-  isLoading: boolean;
-}) => {
+const InquryInput = ({ inputValue, setInputValue, handleSendMessageStream, isLoading }: { inputValue: string; setInputValue: React.Dispatch<React.SetStateAction<string>>; handleSendMessageStream: (userMessage: string) => void; isLoading: boolean }) => {
   const [sttListening, setSttListening] = useRecoilState(sttState);
   const [isSTTselected, setIsSTTselected] = useState(true);
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    isSTTselected ? handleSendMessageStream(inputValue) : handleSendMessage(inputValue);
+    handleSendMessageStream(inputValue);
     setInputValue("");
   };
 
@@ -56,19 +44,9 @@ const InquryInput = ({
   };
 
   return (
-    <div className="relative w-full h-full bg-primary flex flex-col rounded-t-[30px] md:rounded-none md:rounded-l-[30px]">
+    <div className="border-[#5F67E3] border-t-2 md:border-l-2 relative w-full h-full bg-primary flex flex-col rounded-t-[30px] md:rounded-none md:rounded-l-[30px]">
       <div className="relative w-full h-[3.5rem]">
-        {isSTTselected && inputValue && !sttListening && (
-          <button
-            className="absolute left-6 top-6"
-            onClick={() => {
-              setInputValue("");
-            }}
-          >
-            <RefreshButton />
-          </button>
-        )}
-        <div className="absolute top-[26px] right-[9rem] text-[#ACACAC] text-base select-none">입력방식 변경</div>
+        <div className="absolute top-[26px] right-[7rem] text-[#ACACAC] text-base select-none">입력방식 변경</div>
         <Toggle
           on={isSTTselected}
           onToggle={() => {
@@ -102,7 +80,7 @@ const InquryInput = ({
             inputValue={inputValue}
             setInputValue={setInputValue}
             onEnd={() => {
-              isSTTselected ? handleSendMessageStream(inputValue) : handleSendMessage(inputValue);
+              handleSendMessageStream(inputValue);
               setInputValue("");
             }}
           />

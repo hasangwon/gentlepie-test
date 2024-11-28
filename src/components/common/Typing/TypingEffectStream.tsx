@@ -20,8 +20,7 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({ textStream, typ
   });
 
   useEffect(() => {
-    let index = textStream.length;
-    if (index % 10 === 0) {
+    if (typedIndex % 10 === 0) {
       scrollToBottom && scrollToBottom();
     }
     if (typedIndex < textStream.length) {

@@ -16,7 +16,7 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
     "허벅지와 무릎 통증",
     "하퇴부와 발목, 발 통증",
     // "암 통증",
-  ]
+  ];
 
   const initUserInfo = () => {
     setUserName("");
@@ -51,8 +51,7 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
     if (input.length > 3 && input.length <= 7) {
       formattedInput = input.slice(0, 3) + "-" + input.slice(3);
     } else if (input.length > 7) {
-      formattedInput =
-        input.slice(0, 3) + "-" + input.slice(3, 7) + "-" + input.slice(7, 11);
+      formattedInput = input.slice(0, 3) + "-" + input.slice(3, 7) + "-" + input.slice(7, 11);
     }
     if (formattedInput.length <= 13) {
       setUserPhoneNumber(formattedInput);
@@ -62,6 +61,14 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (userName === "" || userBirth === "" || userPhoneNumber === "") {
       alert("모든 정보를 입력해주세요.");
+      return;
+    }
+    if (userBirth.length < 6) {
+      alert("생년월일은 최소 6자리 이상 입력해주세요.");
+      return;
+    }
+    if (userPhoneNumber.length < 10) {
+      alert("전화번호는 최소 10자리 이상 입력해주세요.");
       return;
     }
     handlePageIndex(3);
@@ -74,8 +81,8 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
 
   const handlePainArea = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setPainArea(e.currentTarget.value);
-    handlePageIndex(4)
-  }
+    handlePageIndex(4);
+  };
 
   return {
     userName,
@@ -91,7 +98,7 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
     handleCancel,
     handlePainArea,
     painAreas,
-    backRef
+    backRef,
   };
 };
 

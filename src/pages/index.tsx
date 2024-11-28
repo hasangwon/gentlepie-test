@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 import useInquiry from "@/hooks/useInquiry";
 import useInquiryPageControl from "@/hooks/useInquiryPageControl";
 import useTTS from "@/hooks/useTTS";
@@ -14,20 +13,17 @@ import InfomationPage from "@/components/layout/InformationPage/InfomationPage";
 import PainAreaPage from "@/components/layout/PainAreaPage/PainAreaPage";
 import InquiryChatPage from "@/components/layout/InquiryChatPAge/InquiryChatPage";
 import EndPage from "@/components/layout/EndPage/EndPage";
-import Toggle from "@/components/common/atom/Toggle";
 
 const Index: React.FC = () => {
-  const [testState, setTestState] = React.useState(true);
-
-  const { fetchTTS, fetchTTSGoogle, audioRef } = useTTS();
-  const { inputValue, setInputValue, userMessages, setUserMessages, botMessage, isLoading, handleSendMessage, handleSendMessageStream, threadId, setThreadId } = useInquiry(testState ? fetchTTSGoogle : fetchTTS);
+  const { fetchTTS, audioRef } = useTTS();
+  const { inputValue, setInputValue, userMessages, setUserMessages, botMessage, isLoading, handleSendMessageStream, threadId, setThreadId } = useInquiry(fetchTTS);
   const { pageIndex, messagesEndRef, scrollToBottom, handlePageIndex } = useInquiryPageControl();
   const { userName, userBirth, userPhoneNumber, painArea, handleName, handleBirthFront, handleBirthBack, handlePhoneNumber, handleSubmit, handleCancel, handlePainArea, painAreas, backRef, initUserInfo } = useUserInfo(handlePageIndex);
 
   useEffect(() => {
     if (pageIndex === 4) {
       console.log("페이지 4 진입", botMessage);
-      testState ? fetchTTSGoogle(botMessage) : fetchTTS(botMessage);
+      fetchTTS(botMessage);
     }
   }, [pageIndex]);
 
@@ -63,7 +59,6 @@ const Index: React.FC = () => {
             messagesEndRef={messagesEndRef}
             inputValue={inputValue}
             setInputValue={setInputValue}
-            handleSendMessage={handleSendMessage}
             handleSendMessageStream={handleSendMessageStream}
             handleEndModal={handleEndModal}
             userMessages={userMessages}
@@ -75,7 +70,7 @@ const Index: React.FC = () => {
   };
 
   React.useEffect(() => {
-    console.log("현재 선택된 내용 : ", `{userName} : ${userName}`, `{userBirth} : ${userBirth}`, `{userPhoneNumber} : ${userPhoneNumber}`, `{painArea} : ${painArea}`, `{threadId} : ${threadId}`);
+    console.log("현재 선택", `{userName} : ${userName}\n`, `{userBirth} : ${userBirth}\n`, `{userPhoneNumber} : ${userPhoneNumber}\n`, `{painArea} : ${painArea}\n`, `{threadId} : ${threadId}`);
   }, [pageIndex]);
 
   const [isEndModalOpen, setIsEndModalOpen] = React.useState(false);
@@ -108,7 +103,6 @@ const Index: React.FC = () => {
       /> */}
       <div className="w-full h-full flex justify-center bg-gray-100 overflow-hidden">
         <div className="w-full h-full flex flex-col items-between min-w-[320px] min-h-[480px] bg-white relative">
-          <Toggle className="bg-black z-40" on={testState} onToggle={() => setTestState(!testState)} leftContent={"오픈"} rightContent={"구글"} />
           {isEndModalOpen && pageIndex > 2 && <InquiryEndModal handleModal={handleEndModal} onNextClick={onEndInquiry} />}
           <Header title={"행복한 H 문진 챗봇"} handleEndModal={handleEndModal} pageIndex={pageIndex} />
           <BackgroundImage />
