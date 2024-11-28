@@ -13,7 +13,7 @@ const useInquiryApi = () => {
 
   const sendMessageStream = async (message: string, threadId: string, position: string, onMessage: (data: string) => void, onComplete: (threadId?: string) => void, onEnd: (finalText: string) => void) => {
     try {
-      const response = await fetch("/gentle-api/stream", {
+      const response = await fetch("https://doctorchat-internal.gentlepie.com/stream", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
