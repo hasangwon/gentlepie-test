@@ -52,6 +52,7 @@ const InquryInput = ({ inputValue, setInputValue, handleSendMessageStream, isLoa
           onToggle={() => {
             setInputValue("");
             setIsSTTselected(!isSTTselected);
+            setSttListening(false);
             showToast(!isSTTselected);
           }}
           leftContent={"가"}
