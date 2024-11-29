@@ -2,25 +2,29 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
-  const originalMethod = req.method; // 요청 메서드 확인
-  console.log("Original Request Method:", originalMethod);
+  const baseUrl = process.env.NEXT_PUBLIC_CHAT_API_URL;
+  console.log("Base URL:", baseUrl);
+
+  if (!baseUrl) {
+    console.error("NEXT_PUBLIC_CHAT_API_URL is not defined.");
+    return NextResponse.next();
+  }
 
   if (req.nextUrl.pathname.startsWith("/gentle")) {
-    const baseUrl = process.env.NEXT_PUBLIC_CHAT_API_URL;
+    console.log("Original pathname:", req.nextUrl.pathname);
 
-    if (!baseUrl) {
-      console.error("NEXT_PUBLIC_CHAT_API_URL is not defined.");
+    const newPath = req.nextUrl.pathname.replace("/gentle", "");
+    console.log("New Path:", newPath);
+
+    if (!newPath) {
+      console.error("New Path is undefined.");
       return NextResponse.next();
     }
 
-    const newPath = req.nextUrl.pathname.replace("/gentle", "");
     const targetUrl = new URL(`${baseUrl}${newPath}${req.nextUrl.search || ""}`);
     console.log("Rewriting to URL:", targetUrl);
 
-    // GET 요청으로 변환되지 않도록 메서드를 강제로 유지
-    const response = NextResponse.rewrite(targetUrl);
-    response.headers.set("x-original-method", originalMethod); // 요청 메서드를 명시적으로 전달
-    return response;
+    return NextResponse.rewrite(targetUrl);
   }
 
   return NextResponse.next();
