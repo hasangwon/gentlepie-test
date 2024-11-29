@@ -3,7 +3,7 @@ import axios from "axios";
 const useInquiryApi = () => {
   const sendMessage = async (message: string, threadId: string, position: string) => {
     try {
-      const response = await axios.post("gentle-api/chat", { input: message, threadId: threadId, position: position });
+      const response = await axios.post("/gentle/chat", { input: message, threadId: threadId, position: position });
       return response.data;
     } catch (error) {
       console.error("Failed to send message:", error);
@@ -13,7 +13,7 @@ const useInquiryApi = () => {
 
   const sendMessageStream = async (message: string, threadId: string, position: string, onMessage: (data: string) => void, onComplete: (threadId?: string) => void, onEnd: (finalText: string) => void) => {
     try {
-      const response = await fetch("https://doctorchat-internal.gentlepie.com/stream", {
+      const response = await fetch("/gentle/stream", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
