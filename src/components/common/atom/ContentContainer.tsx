@@ -21,7 +21,7 @@ export default ContentContainer;
 export const Content = ({
   children,
   title,
-  className = "h-[28rem] w-full",
+  className = "h-[32rem] w-full",
 }: {
   children: React.ReactNode;
   title: string;
@@ -31,7 +31,7 @@ export const Content = ({
     <div
       className={`${className} text-center flex-col select-none whitespace-pre-wrap pt-4`}
     >
-      <p className="text-3xl font-semibold leading-10">{title}</p>
+      <p className="text-[29px] font-semibold leading-10">{title}</p>
       {children}
     </div>
   );
