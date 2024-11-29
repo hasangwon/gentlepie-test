@@ -13,7 +13,6 @@ import InfomationPage from "@/components/layout/InformationPage/InfomationPage";
 import PainAreaPage from "@/components/layout/PainAreaPage/PainAreaPage";
 import InquiryChatPage from "@/components/layout/InquiryChatPAge/InquiryChatPage";
 import EndPage from "@/components/layout/EndPage/EndPage";
-import LoadingAnimation from "@/components/common/atom/LoadingAnimation";
 
 const Index: React.FC = () => {
   const { fetchTTS, audioRef } = useTTS();
