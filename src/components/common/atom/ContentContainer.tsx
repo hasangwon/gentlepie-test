@@ -31,7 +31,7 @@ export const Content = ({
     <div
       className={`${className} text-center flex-col select-none whitespace-pre-wrap pt-4`}
     >
-      <p className="text-[29px] font-semibold leading-10">{title}</p>
+      <p className="text-[29px] font-semibold leading-10 px-6">{title}</p>
       {children}
     </div>
   );
