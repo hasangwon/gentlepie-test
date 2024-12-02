@@ -12,8 +12,9 @@ const useInquiryApi = () => {
   };
 
   const sendMessageStream = async (message: string, threadId: string, position: string, onMessage: (data: string) => void, onComplete: (threadId?: string) => void, onEnd: (finalText: string) => void) => {
+    const url = process.env.NEXT_PUBLIC_CHAT_API_URL;
     try {
-      const response = await fetch("/gentle/stream", {
+      const response = await fetch(`${url}/stream`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
