@@ -156,7 +156,7 @@ const Index: React.FC = () => {
             handleEndModal={handleEndModal}
             pageIndex={pageIndex}
           />
-          <BackgroundImage />
+          {pageIndex < 4 && <BackgroundImage />}
           {renderContent()}
         </div>
       </div>

@@ -53,7 +53,7 @@ const SpeechToText = ({
           if (onResult && sttListeningRef.current) {
             onResult(interimTranscript);
           }
-  
+
           if (finalTranscript && sttListeningRef.current) {
             onResult(finalTranscript);
           }
@@ -155,7 +155,7 @@ const SpeechToText = ({
   }, [sttListening]);
 
   return (
-    <div className={`flex flex-1 justify-center items-start w-full mt-1`}>
+    <div className={`flex flex-1 justify-center items-start w-full mt-1 mb-4`}>
       {inputValue && !sttListening && (
         <button
           className="flex items-center gap-3 absolute left-6 top-[26px] tracking-tight"

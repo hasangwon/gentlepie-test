@@ -9,7 +9,17 @@ import RefreshButton from "@/components/common/Svg/RefreshButton";
 import Toggle from "@/components/common/atom/Toggle";
 import MiniVoiceImage from "@/components/common/Svg/MiniVoiceImage";
 
-const InquryInput = ({ inputValue, setInputValue, handleSendMessageStream, isLoading }: { inputValue: string; setInputValue: React.Dispatch<React.SetStateAction<string>>; handleSendMessageStream: (userMessage: string) => void; isLoading: boolean }) => {
+const InquryInput = ({
+  inputValue,
+  setInputValue,
+  handleSendMessageStream,
+  isLoading,
+}: {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  handleSendMessageStream: (userMessage: string) => void;
+  isLoading: boolean;
+}) => {
   const [sttListening, setSttListening] = useRecoilState(sttState);
   const [isSTTselected, setIsSTTselected] = useState(true);
 
@@ -21,32 +31,39 @@ const InquryInput = ({ inputValue, setInputValue, handleSendMessageStream, isLoa
   };
 
   const showToast = (isSTTselected: boolean) => {
-    toast(isSTTselected ? "음성 입력 모드로 전환되었습니다." : "직접 입력 모드로 전환되었습니다.", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeButton: false,
-      icon: false,
-      style: {
-        background: "rgba(95, 103, 227, 0.85)",
-        color: "#fff",
-        borderRadius: "20px",
-        textAlign: "center",
-        top: "3.5rem",
-        minHeight: "42px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "15px",
-        padding: "4px 12px",
-      },
-    });
+    toast(
+      isSTTselected
+        ? "음성 입력 모드로 전환되었습니다."
+        : "직접 입력 모드로 전환되었습니다.",
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        icon: false,
+        style: {
+          background: "rgba(95, 103, 227, 0.85)",
+          color: "#fff",
+          borderRadius: "20px",
+          textAlign: "center",
+          top: "3.5rem",
+          minHeight: "42px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "15px",
+          padding: "4px 12px",
+        },
+      }
+    );
   };
 
   return (
     <div className="border-[#5F67E3] border-t-2 md:border-l-2 relative w-full h-full bg-primary flex flex-col rounded-t-[30px] md:rounded-none md:rounded-l-[30px]">
       <div className="relative w-full h-[3.5rem]">
-        <div className="absolute top-[26px] right-[7rem] text-[#ACACAC] text-base select-none">입력방식 변경</div>
+        <div className="absolute top-[26px] right-[7rem] text-[#ACACAC] text-base select-none">
+          입력방식 변경
+        </div>
         <Toggle
           on={isSTTselected}
           onToggle={() => {
@@ -106,7 +123,11 @@ const InquryInput = ({ inputValue, setInputValue, handleSendMessageStream, isLoa
             }}
           />
           <div className="flex mr-4 items-start">
-            <button onClick={handleSubmit} disabled={isLoading} className="flex justify-center items-center mb-0">
+            <button
+              onClick={handleSubmit}
+              disabled={isLoading}
+              className="flex justify-center items-center mb-0"
+            >
               <NextButton isActive={inputValue !== ""} />
             </button>
           </div>
