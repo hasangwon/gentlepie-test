@@ -66,11 +66,16 @@ const SpeechToText = ({
             recognitionInstance.stop();
             setTimeout(() => {
               recognitionInstance?.start();
+              setRecognition(recognitionInstance);
             }, 500);
           } else if (event.error === "network") {
             alert("인터넷 연결을 확인해주세요.");
             recognitionInstance.stop();
             setRecognition(null);
+          } else if (event.error === "aborted") {
+            recognitionInstance.stop();
+            setRecognition(null);
+            setSttListening(false);
           } else {
             alert(`음성 인식 중 에러가 발생했습니다: ${event.error}`);
             recognitionInstance.stop();
