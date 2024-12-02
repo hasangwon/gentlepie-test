@@ -17,7 +17,7 @@ export default async function handler(req: any, res: any) {
       },
       body: JSON.stringify({
         model: "tts-1", // TTS 모델 지정
-        voice: "onyx", // 사용할 목소리
+        voice: "echo", // 사용할 목소리
         input: text, // 변환할 텍스트
         response_format: "mp3", // 오디오 포맷
       }),
