@@ -12,6 +12,8 @@ export const formatPainArea = (painArea: string) => {
       return "다리";
     case "하퇴부와 발목, 발 통증":
       return "발";
+    case "암 통증":
+      return "암";
     default:
       return "";
   }
