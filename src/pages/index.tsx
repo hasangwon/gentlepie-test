@@ -15,7 +15,7 @@ import InquiryChatPage from "@/components/layout/InquiryChatPAge/InquiryChatPage
 import EndPage from "@/components/layout/EndPage/EndPage";
 
 const Index: React.FC = () => {
-  const { fetchTTS, audioRef } = useTTS();
+  const { fetchTTS, audioRef, isTTSloading } = useTTS();
   const {
     inputValue,
     setInputValue,
@@ -26,7 +26,7 @@ const Index: React.FC = () => {
     handleSendMessageStream,
     threadId,
     setThreadId,
-  } = useInquiry(fetchTTS);
+  } = useInquiry();
   const { pageIndex, messagesEndRef, scrollToBottom, handlePageIndex } =
     useInquiryPageControl();
   const {
@@ -45,13 +45,6 @@ const Index: React.FC = () => {
     backRef,
     initUserInfo,
   } = useUserInfo(handlePageIndex);
-
-  useEffect(() => {
-    if (pageIndex === 4) {
-      console.log("페이지 4 진입", botMessage);
-      fetchTTS(botMessage);
-    }
-  }, [pageIndex]);
 
   const renderContent = () => {
     switch (pageIndex) {
@@ -74,7 +67,13 @@ const Index: React.FC = () => {
         );
       case 3:
         return (
-          <PainAreaPage painAreas={painAreas} handlePainArea={handlePainArea} />
+          <PainAreaPage
+            painAreas={painAreas}
+            handlePainArea={(e) => {
+              handlePainArea(e);
+              fetchTTS(botMessage);
+            }}
+          />
         );
       case 4:
       default:
@@ -87,9 +86,11 @@ const Index: React.FC = () => {
             messagesEndRef={messagesEndRef}
             inputValue={inputValue}
             setInputValue={setInputValue}
+            fetchTTS={fetchTTS}
             handleSendMessageStream={handleSendMessageStream}
             handleEndModal={handleEndModal}
             userMessages={userMessages}
+            isTTSloading={isTTSloading}
           />
         );
       case 5:

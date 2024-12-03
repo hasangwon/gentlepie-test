@@ -9,12 +9,14 @@ const SpeechToText = ({
   inputValue,
   setInputValue,
   onResult,
-  onEnd,
+  handleSendMessageStream,
+  fetchTTS,
 }: {
   inputValue: string;
   setInputValue: (value: string) => void;
   onResult: (text: string) => void;
-  onEnd?: any;
+  handleSendMessageStream: (userMessage: string) => Promise<string | null>;
+  fetchTTS: (text: string) => Promise<string>;
 }) => {
   const [recognition, setRecognition] = useState<any>(null);
   const [sttListening, setSttListening] = useRecoilState(sttState);
@@ -22,6 +24,31 @@ const SpeechToText = ({
   const [isFirstRecord, setIsFirstRecord] = useState(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   useVisualize(mediaStreamRef, sttListening, setSttListening);
+
+  const printError = (error: string) => {
+    switch (error) {
+      case "no-speech":
+        return console.log("음성이 감지되지 않았습니다. 다시 시도해주세요.");
+        break;
+      case "aborted":
+        return console.log("음성 인식이 중단되었습니다.");
+        break;
+      case "network":
+        return alert("인터넷 연결을 확인해주세요.");
+        break;
+
+      case "not-allowed":
+        return alert("브라우저의 마이크 권한을 허용해주세요.");
+        break;
+      case "service-not-allowed":
+        return alert("브라우저의 음성 인식 권한을 허용해주세요.");
+        break;
+      default:
+        return alert(`음성 인식 중 알 수 없는 에러가 발생했습니다: ${error}`);
+        break;
+    }
+  };
+
   useEffect(() => {
     if (!sttListening) return;
 
@@ -60,27 +87,15 @@ const SpeechToText = ({
         };
 
         recognitionInstance.onerror = (event: any) => {
-          console.error("Speech recognition error detected: " + event.error);
+          printError(event.error);
+          recognitionInstance.stop();
+          setSttListening(false);
+          setRecognition(null);
+
           if (event.error === "no-speech") {
-            console.log("No speech detected, restarting recognition...");
-            recognitionInstance.stop();
             setTimeout(() => {
-              recognitionInstance?.start();
-              setRecognition(recognitionInstance);
+              setSttListening(true);
             }, 500);
-          } else if (event.error === "network") {
-            alert("인터넷 연결을 확인해주세요.");
-            recognitionInstance.stop();
-            setRecognition(null);
-          } else if (event.error === "aborted") {
-            recognitionInstance.stop();
-            setRecognition(null);
-            setSttListening(false);
-          } else {
-            alert(`음성 인식 중 에러가 발생했습니다: ${event.error}`);
-            recognitionInstance.stop();
-            setRecognition(null);
-            setSttListening(false); // 에러 발생 시 STT 중지
           }
         };
 
@@ -179,10 +194,11 @@ const SpeechToText = ({
         <button
           type="button"
           className="w-[68px] h-[68px] linear-gradient-voice-in rounded-full border-white border-2"
-          onClick={() => {
+          onClick={async () => {
             setIsFirstRecord(true);
-            stopRecognition().then(() => {
-              onEnd();
+            stopRecognition().then(async () => {
+              const finalText = await handleSendMessageStream(inputValue);
+              if (finalText) await fetchTTS(finalText);
             });
           }}
           disabled={!sttListening}
@@ -202,9 +218,12 @@ const SpeechToText = ({
         <button
           type="button"
           className="linear-gradient-voice rounded-full border-white border-2 w-[68px] h-[68px] flex justify-center items-center"
-          onClick={() => {
-            onEnd();
+          onClick={(e) => {
             setIsFirstRecord(true);
+            stopRecognition().then(async () => {
+              const finalText = await handleSendMessageStream(inputValue);
+              if (finalText) await fetchTTS(finalText);
+            });
           }}
           disabled={sttListening}
         >

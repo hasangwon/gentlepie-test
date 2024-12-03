@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const useTTS = () => {
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isTTSloading, setIsTTSloading] = useState(false);
 
-  const fetchTTS = async (text: string) => {
+  const fetchTTS = async (text: string): Promise<string> => {
+    setIsTTSloading(true);
     try {
       const response = await fetch("/api/tts", {
         method: "POST",
@@ -19,51 +20,39 @@ const useTTS = () => {
         const audioBase64 = data.audioContent;
         const audioBlob = new Blob([Uint8Array.from(atob(audioBase64), (c) => c.charCodeAt(0))], { type: "audio/mp3" });
         const newAudioUrl = URL.createObjectURL(audioBlob);
-        setAudioUrl(newAudioUrl);
+        setIsTTSloading(false);
+
+        if (audioRef.current?.src) {
+          console.log("Releasing old Blob URL:", audioRef.current.src);
+          URL.revokeObjectURL(audioRef.current.src);
+        }
+
+        if (newAudioUrl && audioRef.current) {
+          audioRef.current.src = newAudioUrl;
+          audioRef.current.play().catch((err: any) => {
+            console.error("오디오 재생 오류 발생:", err);
+            alert("오디오 재생에 실패했습니다. 다시 시도해주세요.");
+          });
+        }
+        return newAudioUrl;
       } else {
-        console.error("오디오 생성 중 오류가 발생했습니다.", data);
+        console.error("TTS 생성 오류:", data);
+        alert(`TTS 생성 오류가 발생했습니다.${data}`);
+        setIsTTSloading(false);
+        return "";
       }
     } catch (err) {
-      console.error("오디오 생성 중 오류가 발생했습니다.", err);
+      console.error("TTS 요청 실패:", err);
+      alert("TTS 요청 실패");
+      setIsTTSloading(false);
+      return "";
     }
   };
-
-  // Google TTS 호출
-  const fetchTTSGoogle = async (text: string) => {
-    try {
-      const response = await fetch("/api/google-tts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        const audioBase64 = data.audioContent;
-        const audioBlob = new Blob([Uint8Array.from(atob(audioBase64), (c) => c.charCodeAt(0))], { type: "audio/mp3" });
-        const newAudioUrl = URL.createObjectURL(audioBlob);
-        setAudioUrl(newAudioUrl);
-      } else {
-        console.error("오디오 생성 중 오류가 발생했습니다.", data);
-      }
-    } catch (err) {
-      console.error("오디오 생성 중 오류가 발생했습니다.", err);
-    }
-  };
-
-  useEffect(() => {
-    if (audioUrl && audioRef.current) {
-      audioRef.current.src = audioUrl;
-      audioRef.current.play();
-    }
-  }, [audioUrl]);
 
   return {
     fetchTTS,
     audioRef,
-    fetchTTSGoogle,
+    isTTSloading,
   };
 };
 

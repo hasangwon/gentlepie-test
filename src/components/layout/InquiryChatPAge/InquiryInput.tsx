@@ -14,20 +14,22 @@ const InquryInput = ({
   setInputValue,
   handleSendMessageStream,
   isLoading,
+  fetchTTS,
 }: {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  handleSendMessageStream: (userMessage: string) => void;
+  handleSendMessageStream: (userMessage: string) => Promise<string | null>;
   isLoading: boolean;
+  fetchTTS: (text: string) => Promise<string>;
 }) => {
   const [sttListening, setSttListening] = useRecoilState(sttState);
   const [isSTTselected, setIsSTTselected] = useState(true);
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    handleSendMessageStream(inputValue);
-    setInputValue("");
+    const finalText = await handleSendMessageStream(inputValue);
+    if (finalText) fetchTTS(finalText);
   };
 
   const showToast = (isSTTselected: boolean) => {
@@ -97,10 +99,8 @@ const InquryInput = ({
             }}
             inputValue={inputValue}
             setInputValue={setInputValue}
-            onEnd={() => {
-              handleSendMessageStream(inputValue);
-              setInputValue("");
-            }}
+            handleSendMessageStream={handleSendMessageStream}
+            fetchTTS={fetchTTS}
           />
         </>
       ) : (

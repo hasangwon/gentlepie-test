@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { painAreaState } from "@/store/painAreaState";
 import { formatPainArea } from "@/utils/formatText";
 
-const useInquiry = (fetchTTSGoogle: (text: string) => Promise<void>) => {
+const useInquiry = () => {
   const { sendMessage, sendMessageStream } = useInquiryApi();
   const [painArea, setPainArea] = useRecoilState(painAreaState);
   const [inputValue, setInputValue] = useState("");
@@ -15,8 +15,10 @@ const useInquiry = (fetchTTSGoogle: (text: string) => Promise<void>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [threadId, setThreadId] = useState("");
 
-  const handleSendMessage = async (userMessage: string) => {
-    if (userMessage.trim() === "") return;
+  const handleSendMessageStream = async (
+    userMessage: string
+  ): Promise<string | null> => {
+    if (userMessage.trim() === "") return null;
 
     setInputValue("");
     setIsLoading(true);
@@ -24,30 +26,8 @@ const useInquiry = (fetchTTSGoogle: (text: string) => Promise<void>) => {
     setBotMessage("");
 
     try {
-      const response = await sendMessage(
-        userMessage,
-        threadId,
-        formatPainArea(painArea)
-      );
-      await fetchTTSGoogle(response?.text);
-      setBotMessage(response?.text);
-      setThreadId(response?.threadId || "");
-    } catch (error) {
-      console.error("Failed to fetch bot response:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      let finalText: string | null = null;
 
-  const handleSendMessageStream = async (userMessage: string) => {
-    if (userMessage.trim() === "") return;
-
-    setInputValue("");
-    setIsLoading(true);
-    setUserMessages((prev) => [...prev, userMessage]);
-    setBotMessage("");
-
-    try {
       await sendMessageStream(
         userMessage,
         threadId,
@@ -57,18 +37,22 @@ const useInquiry = (fetchTTSGoogle: (text: string) => Promise<void>) => {
         },
         (savedThreadId) => {
           setThreadId(savedThreadId || "");
-        },
-        async (finalText) => {
           setIsLoading(false);
-          await fetchTTSGoogle(finalText);
+        },
+        async (receivedFinalText) => {
+          setIsLoading(false);
+          finalText = receivedFinalText;
         }
       );
+
+      return finalText;
     } catch (error) {
       console.error("Failed to fetch bot response:", error);
       setBotMessage(
         "죄송합니다. 서버와의 통신에 문제가 발생했습니다.\n새로고침 후 다시 시도해주세요."
       );
       setIsLoading(false);
+      return "";
     }
   };
 
@@ -78,7 +62,6 @@ const useInquiry = (fetchTTSGoogle: (text: string) => Promise<void>) => {
     userMessages,
     botMessage,
     isLoading,
-    handleSendMessage,
     handleSendMessageStream,
     threadId,
     setThreadId,
