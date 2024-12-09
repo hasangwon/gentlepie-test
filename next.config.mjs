@@ -17,18 +17,6 @@ const nextConfig = {
     };
     return config;
   },
-  // async rewrites() {
-  //   const CHAT_API_URL =
-  //     process.env.NODE_ENV === 'production'
-  //       ? process.env.NEXT_PUBLIC_PRODUCT_CHAT_API_URL
-  //       : process.env.NEXT_PUBLIC_CHAT_API_URL;
-  //   return [
-  //     {
-  //       source: `${process.env.NEXT_PUBLIC_BASE_PATH}/gentle/:path*`,
-  //       destination: `${CHAT_API_URL}/:path*`,
-  //     },
-  //   ];
-  // },
 };
 
 export default nextConfig;

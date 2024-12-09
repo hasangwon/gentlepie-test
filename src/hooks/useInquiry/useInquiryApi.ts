@@ -3,7 +3,7 @@ import { BASE_PATH } from "@/utils/constants";
 const useInquiryApi = () => {
   const sendMessageStream = async (message: string, threadId: string, position: string, onMessage: (data: string) => void, onComplete: (threadId?: string) => void, onEnd: (finalText: string) => void) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_CHAT_API_URL}/stream`, {
+      const response = await fetch(`${BASE_PATH}/gentle/stream`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
