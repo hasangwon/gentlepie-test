@@ -28,11 +28,10 @@ export default async function handler(req: any, res: any) {
       return res.status(response.status).json(errorData);
     }
 
-    // mp3 오디오 파일 형식으로 데이터 가져오기
     const audioData = await response.arrayBuffer();
-    const audioBase64 = Buffer.from(audioData).toString("base64"); // Base64 인코딩
+    const audioBase64 = Buffer.from(audioData).toString("base64");
 
-    res.status(200).json({ audioContent: audioBase64 }); // Base64 데이터 반환
+    res.status(200).json({ audioContent: audioBase64 });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

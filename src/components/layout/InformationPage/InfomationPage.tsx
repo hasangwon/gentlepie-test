@@ -1,6 +1,7 @@
 import React from "react";
 import ContentContainer, { Content } from "../../common/atom/ContentContainer";
 import ButtonArea from "../../common/atom/ButtonArea";
+import { infoSecurityText, infoTitle } from "@/utils/constants";
 
 const InfomationPage = ({
   userName,
@@ -25,14 +26,10 @@ const InfomationPage = ({
   handleCancel: () => void;
   backRef: React.RefObject<HTMLInputElement>;
 }) => {
-  const infoTitle = "기본정보를 입력해 주세요.";
-  const securityText =
-    "건강보험공단 서버에 연결하기 위한 정보를 요청드립니다.\n제공하신 정보는 안전하게 보안 처리됩니다.";
-
   return (
     <ContentContainer>
       <Content title={infoTitle}>
-        <p className="text-xs mt-8">{securityText}</p>
+        <p className="text-xs mt-8">{infoSecurityText}</p>
         <form className="w-full flex justify-center mt-12">
           <div className="flex flex-col gap-12 sm:mr-12 font-semibold">
             <h3 className="text-[20px] sm:text-[28px] w-[10rem] select-none h-[2.5rem] flex items-center justify-start">

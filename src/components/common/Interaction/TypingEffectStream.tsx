@@ -8,7 +8,12 @@ interface TypingEffectStreamProps {
   className?: string;
 }
 
-const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({ textStream, typingSpeed = 30, scrollToBottom = null, className }) => {
+const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({
+  textStream,
+  typingSpeed = 30,
+  scrollToBottom = null,
+  className,
+}) => {
   const [displayText, setDisplayText] = useState("");
   const [typedIndex, setTypedIndex] = useState(0);
 
@@ -39,7 +44,6 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({ textStream, typ
     }
   }, [textStream]);
 
-  // Markdown을 HTML로 변환
   const htmlContent = converter.makeHtml(displayText);
 
   return (
@@ -49,7 +53,6 @@ const TypingEffectStream: React.FC<TypingEffectStreamProps> = ({ textStream, typ
         __html: htmlContent,
       }}
     />
-    // <div className="m-auto">{displayText}</div>
   );
 };
 

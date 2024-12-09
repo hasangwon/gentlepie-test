@@ -1,13 +1,12 @@
-import SpeechToText from "@/components/common/Speech/SpeechToText";
-import NextButton from "@/components/common/Svg/NextButton";
-import { sttState } from "@/store/sttState";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import TextareaAutosize from "react-textarea-autosize";
+import { sttState } from "@/store/sttState";
 import { toast } from "react-toastify";
-import RefreshButton from "@/components/common/Svg/RefreshButton";
+import TextareaAutosize from "react-textarea-autosize";
 import Toggle from "@/components/common/atom/Toggle";
+import NextButton from "@/components/common/Svg/NextButton";
 import MiniVoiceImage from "@/components/common/Svg/MiniVoiceImage";
+import SpeechToText from "@/components/common/Interaction/SpeechToText";
 
 const InquryInput = ({
   inputValue,

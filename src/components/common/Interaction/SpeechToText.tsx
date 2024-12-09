@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
 import VoiceImage from "../Svg/VoiceImage";
 import RefreshButton from "../Svg/RefreshButton";
+import { printError } from "@/utils/printError";
 
 const SpeechToText = ({
   inputValue,
@@ -18,36 +19,51 @@ const SpeechToText = ({
   handleSendMessageStream: (userMessage: string) => Promise<string | null>;
   fetchTTS: (text: string) => Promise<string>;
 }) => {
+  const mediaStreamRef = useRef<any>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [recognition, setRecognition] = useState<any>(null);
   const [sttListening, setSttListening] = useRecoilState(sttState);
-  const mediaStreamRef = useRef<any>(null);
   const [isFirstRecord, setIsFirstRecord] = useState(true);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useVisualize(mediaStreamRef, sttListening, setSttListening);
 
-  const printError = (error: string) => {
-    switch (error) {
-      case "no-speech":
-        return console.log("음성이 감지되지 않았습니다. 다시 시도해주세요.");
-        break;
-      case "aborted":
-        return console.log("음성 인식이 중단되었습니다.");
-        break;
-      case "network":
-        return alert("인터넷 연결을 확인해주세요.");
-        break;
-
-      case "not-allowed":
-        return alert("브라우저의 마이크 권한을 허용해주세요.");
-        break;
-      case "service-not-allowed":
-        return alert("브라우저의 음성 인식 권한을 허용해주세요.");
-        break;
-      default:
-        return alert(`음성 인식 중 알 수 없는 에러가 발생했습니다: ${error}`);
-        break;
-    }
+  const startRecognition = (e: any) => {
+    setSttListening(true);
+    setInputValue("");
+    setIsFirstRecord(false);
   };
+
+  const stopRecognition = async (): Promise<void> => {
+    setSttListening(false);
+    return new Promise((resolve) => {
+      if (recognition) {
+        recognition.stop();
+        setRecognition(null);
+      }
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
+      if (mediaStreamRef.current) {
+        const audioTracks = mediaStreamRef.current
+          .getTracks()
+          .filter(
+            (track: any) =>
+              track.kind === "audio" && track.readyState === "live"
+          );
+        if (audioTracks.length > 0) {
+          audioTracks.forEach((track: any) => track.stop());
+          console.log("Media stream stopped.");
+          mediaStreamRef.current = null;
+        }
+      }
+      resolve();
+    });
+  };
+
+  const sttListeningRef = useRef(sttListening);
 
   useEffect(() => {
     if (!sttListening) return;
@@ -104,7 +120,7 @@ const SpeechToText = ({
       } catch (error) {
         console.error("Failed to initialize SpeechRecognition:", error);
         alert("음성 인식 초기화에 실패했습니다. 브라우저를 확인해주세요.");
-        setSttListening(false); // STT 상태 비활성화
+        setSttListening(false);
       }
 
       return () => {
@@ -118,7 +134,6 @@ const SpeechToText = ({
     }
   }, [sttListening]);
 
-  // 타이머 자동 전송 effect
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -133,43 +148,6 @@ const SpeechToText = ({
     };
   }, [inputValue]);
 
-  const startRecognition = () => {
-    setSttListening(true);
-    setInputValue("");
-    setIsFirstRecord(false);
-  };
-
-  const stopRecognition = async (): Promise<void> => {
-    setSttListening(false);
-    return new Promise((resolve) => {
-      if (recognition) {
-        recognition.stop();
-        setRecognition(null);
-      }
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-
-      if (mediaStreamRef.current) {
-        const audioTracks = mediaStreamRef.current
-          .getTracks()
-          .filter(
-            (track: any) =>
-              track.kind === "audio" && track.readyState === "live"
-          );
-        if (audioTracks.length > 0) {
-          audioTracks.forEach((track: any) => track.stop());
-          console.log("Media stream stopped.");
-          mediaStreamRef.current = null;
-        }
-      }
-      resolve();
-    });
-  };
-
-  const sttListeningRef = useRef(sttListening);
   useEffect(() => {
     sttListeningRef.current = sttListening;
   }, [sttListening]);
@@ -179,10 +157,7 @@ const SpeechToText = ({
       {inputValue && !sttListening && (
         <button
           className="flex items-center gap-3 absolute left-6 top-[26px] tracking-tight"
-          onClick={() => {
-            startRecognition();
-            // setInputValue("");
-          }}
+          onClick={startRecognition}
         >
           <RefreshButton />
           <div className="text-[#ACACAC] text-base select-none">

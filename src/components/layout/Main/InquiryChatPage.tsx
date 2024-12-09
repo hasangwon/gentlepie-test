@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import BotMessage from "./BotMessage";
-import ArrowButton from "../../common/Svg/ArrowButton";
-import InquryInput from "./InquiryInput";
-import LoadingAnimation from "@/components/common/atom/LoadingAnimation";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { sttState } from "@/store/sttState";
+import ArrowButton from "../../common/Svg/ArrowButton";
+import LoadingAnimation from "@/components/common/atom/LoadingAnimation";
+import BotMessage from "./BotMessage";
+import InquryInput from "./InquiryInput";
 
 const InquiryChatPage = ({
   isLoading,
@@ -46,40 +46,18 @@ const InquiryChatPage = ({
     };
   }, [sttListening, isLoading, audioRef]);
 
-  // const [audioSize, setAudioSize] = useState({ width: 0, height: 0 });
-  // const updateAudioSize = () => {
-  //   if (audioRef.current) {
-  //     const rect = audioRef.current.getBoundingClientRect();
-  //     setAudioSize({ width: rect.width, height: rect.height });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   updateAudioSize();
-  //   window.addEventListener("resize", updateAudioSize);
-  //   return () => {
-  //     window.removeEventListener("resize", updateAudioSize);
-  //   };
-  // }, []);
-
   return (
     <>
       <div className="relative flex justify-center items-center">
         <audio ref={audioRef} controls />
         {isTTSloading && (
-          <div
-            className="absolute bg-gray-800 bg-opacity-50 flex items-center justify-center rounded-xl"
-            // style={{
-            //   width: `${audioSize.width}px`,
-            //   height: `${audioSize.height}px`,
-            // }}
-          >
+          <div className="absolute bg-gray-800 bg-opacity-50 flex items-center justify-center rounded-xl">
             <div className="loader border-t-transparent border-4 border-blue-500 w-6 h-6 rounded-full animate-spin"></div>
           </div>
         )}
       </div>
 
-      <div className="responsive_device_container bg-transparent w-full h-full z-10 pt-[3.25rem]">
+      <div className="responsive_device_container bg-transparent w-full h-[calc(100%-3.5rem)] z-10">
         <div className="responsive_device_chat shrink-0 relative">
           {isLoading ? (
             <LoadingAnimation />

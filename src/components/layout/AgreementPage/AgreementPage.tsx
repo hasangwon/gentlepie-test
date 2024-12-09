@@ -2,6 +2,11 @@ import React from "react";
 import ButtonArea from "../../common/atom/ButtonArea";
 import ContentContainer, { Content } from "../../common/atom/ContentContainer";
 import AgreeRuleModal from "../Modal/AgreeRuleModal";
+import {
+  AgreementDisareeText,
+  AgreementOpeningText,
+  BASE_PATH,
+} from "@/utils/constants";
 
 const AgreementPage = ({
   handlePageIndex,
@@ -13,20 +18,20 @@ const AgreementPage = ({
   const [currentPage, setCurrentPage] = React.useState("agreement");
 
   React.useEffect(() => {
-    fetch("/privacy-policy.json")
+    fetch(`${BASE_PATH}/privacy-policy.json`)
       .then((res) => res.json())
       .then((data) => setInfo(data.content))
       .catch((error) => console.error("Failed to load policy:", error));
   }, []);
-
-  const openingText =
-    "안녕하세요.\n행복한 H 문진 챗봇입니다.\n\n이 챗봇은 환자 상태를 미리 파악해\n신속하고 정확한 진단을\n돕기 위해 운영됩니다.\n\n개인정보 동의 후\n질문과 문진을\n시작하겠습니다.";
-  const disareeText =
-    "개인정보 수집 및 활용에\n동의하지 않으시면\n\n서비스 이용이\n제한될 수 있습니다.\n\n동의 후 다시 시도해주세요.";
-
   return (
     <ContentContainer>
-      <Content title={currentPage === "agreement" ? openingText : disareeText}>
+      <Content
+        title={
+          currentPage === "agreement"
+            ? AgreementOpeningText
+            : AgreementDisareeText
+        }
+      >
         {isOpenModal && (
           <AgreeRuleModal handleModal={setIsOpenModal} info={info} />
         )}

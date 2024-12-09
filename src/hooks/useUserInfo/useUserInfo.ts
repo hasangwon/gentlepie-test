@@ -1,4 +1,5 @@
 import { painAreaState } from "@/store/painAreaState";
+import { painAreas } from "@/utils/constants";
 import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -8,15 +9,6 @@ export const useUserInfo = (handlePageIndex: (index: number) => void) => {
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
   const [painArea, setPainArea] = useRecoilState(painAreaState);
   const backRef = useRef<HTMLInputElement>(null);
-  const painAreas = [
-    "목 통증, 두통",
-    "어깨, 가슴, 등 통증",
-    "팔꿈치, 손목, 손 통증",
-    "허리, 골반, 고관절 통증",
-    "허벅지와 무릎 통증",
-    "하퇴부와 발목, 발 통증",
-    "암 통증",
-  ];
 
   const initUserInfo = () => {
     setUserName("");

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import ContentContainer, { Content } from "../../common/atom/ContentContainer";
+import { BASE_PATH, painDescription, painTitle } from "@/utils/constants";
 
 const PainAreaPage = ({
   painAreas,
@@ -9,10 +10,6 @@ const PainAreaPage = ({
   painAreas: string[];
   handlePainArea: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) => {
-  const painTitle = "먼저 통증 부위를\n선택해 주세요.";
-  const painDescription =
-    "문진은 선택한 부위에 따라\n최대 18개 항목으로 구성됩니다.";
-
   return (
     <div
       className={`relative w-full h-full z-10 overflow-y-auto mt-[3.75rem] responsive_height`}
@@ -39,7 +36,7 @@ const PainAreaPage = ({
         </div>
         <div className="fixed bottom-[-8rem] left-[-4rem] w-[60%] min-w-[15rem] max-w-[30rem] h-auto z-[-10]">
           <img
-            src="/gradient_circle.svg"
+            src={`${BASE_PATH}/gradient_circle.svg`}
             alt="logo"
             className="w-full h-auto"
           />

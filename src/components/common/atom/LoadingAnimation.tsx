@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { BASE_PATH, doctorName } from "@/utils/constants";
 
 const LoadingAnimation = () => {
   const [showMessage, setShowMessage] = useState(false);
-  const doctorName = "김정훈 대표원장";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -11,11 +11,15 @@ const LoadingAnimation = () => {
     }, 2500);
     return () => clearTimeout(timer);
   }, []);
-
   return (
     <div className="w-full h-full flex flex-col gap-4 justify-center items-center">
       <div className="w-full flex flex-col justify-center items-center pt-6 pb-6">
-        <Image src="/bot profile.png" width={57} height={57} alt="doctor" />
+        <Image
+          src={`${BASE_PATH}/bot_profile.png`}
+          width={57}
+          height={57}
+          alt="doctor"
+        />
         <h3 className="text-xs text-gentle-dark mt-1">{doctorName}</h3>
       </div>
       <div className="flex gap-2">
